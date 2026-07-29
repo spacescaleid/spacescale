@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    @apply bg-bg-primary text-text-primary font-sans;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  *:focus-visible {
+    outline: 2px solid #4F8EF7;
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #FAFAF7;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1A2B6B;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: rgba(26, 43, 107, 0.15);
+    color: #0A0E1F;
+  }
+}
+
+@layer components {
+  .container-wide {
+    @apply mx-auto w-full max-w-wide px-5 md:px-[5%];
+  }
+
+  .container-content {
+    @apply mx-auto w-full max-w-content px-5 md:px-[5%];
+  }
+
+  .container-narrow {
+    @apply mx-auto w-full max-w-narrow px-5 md:px-[5%];
+  }
+
+  .section-pad {
+    @apply py-20 md:py-section px-5 md:px-[5%];
+  }
+
+  /* Italic display text — Instrument Serif */
+  .italic-serif {
+    @apply font-serif italic font-normal;
+  }
+
+  /* Section label badge */
+  .section-label {
+    @apply inline-block font-mono text-meta uppercase tracking-[0.3em] 
+           text-brand-navy px-3.5 py-1.5 mb-4
+           bg-brand-navy/[0.06] rounded-full;
+  }
+
+  /* Mono meta text */
+  .label-mono {
+    @apply font-mono text-meta uppercase tracking-[0.2em] text-text-muted;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-br from-brand-navy to-accent-electric bg-clip-text text-transparent;
+  }
+}
