@@ -1,215 +1,260 @@
 "use client";
 
-import { useTranslation } from "@/lib/i18n/useTranslation";
-import { SectionHeader } from "@/components/ui/SectionHeader";
+import { Check } from "lucide-react";
+import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
-import { pricingTiers, type PricingTier } from "@/lib/data/pricing";
-import { whatsappLink, cn } from "@/lib/utils";
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import { cn } from "@/lib/utils";
 
-/**
- * Pricing section — 3 tiers with featured middle tier.
- * Promo pricing: crossed-out original price + bold promo price + savings note.
- */
+const CATEGORY_ORDER = [
+  "Paket Personal & Perayaan",
+  "Paket Undangan Digital",
+  "Paket Bisnis & UMKM",
+  "Paket Portfolio Personal",
+  "Paket Company Profile",
+  "Paket Website Event",
+  "Paket Bundel Terbaik",
+] as const;
+
+type PricingCategory = (typeof CATEGORY_ORDER)[number];
+
+type PricingPackage = {
+  category: PricingCategory;
+  tier: string;
+  title: string;
+  description: string;
+  price: string;
+  originalPrice?: string;
+  badge?: string;
+  features: string[];
+  ctaLabel: string;
+};
+
+const CATEGORY_COPY: Record<
+  PricingCategory,
+  {
+    label: string;
+    subtitle: string;
+  }
+> = {
+  "Paket Personal & Perayaan": {
+    label: "Kategori 01",
+    subtitle:
+      "Untuk kebutuhan personal, halaman perayaan, dan landing page sederhana yang cepat online.",
+  },
+  "Paket Undangan Digital": {
+    label: "Kategori 02",
+    subtitle:
+      "Cocok untuk undangan online dengan tampilan rapi, mudah dibagikan, dan tetap elegan.",
+  },
+  "Paket Bisnis & UMKM": {
+    label: "Kategori 03",
+    subtitle:
+      "Untuk promosi bisnis, penawaran layanan, dan kebutuhan konversi yang lebih profesional.",
+  },
+  "Paket Portfolio Personal": {
+    label: "Kategori 04",
+    subtitle:
+      "Bangun personal branding untuk freelancer, kreator, profesional, dan talenta independen.",
+  },
+  "Paket Company Profile": {
+    label: "Kategori 05",
+    subtitle:
+      "Website representatif untuk membangun trust, kredibilitas, dan presentasi perusahaan.",
+  },
+  "Paket Website Event": {
+    label: "Kategori 06",
+    subtitle:
+      "Landing page event dengan informasi jelas, alur registrasi rapi, dan CTA yang kuat.",
+  },
+  "Paket Bundel Terbaik": {
+    label: "Bundel Spesial",
+    subtitle:
+      "Kombinasi paket paling worth it untuk brand yang ingin tampil lebih lengkap sekaligus hemat.",
+  },
+};
+
+const PRICING_PACKAGES: PricingPackage[] = [
+  // TODO:
+  // Paste seluruh data paket "Jasa Pembuatan Website Profesional" di sini
+  // dengan format object seperti contoh berikut:
+  //
+  // {
+  //   category: "Paket Personal & Perayaan",
+  //   tier: "Starter",
+  //   title: "Nama Paket",
+  //   description: "Deskripsi singkat paket.",
+  //   price: "Rp99.000",
+  //   originalPrice: "Rp149.000",
+  //   badge: "⭐ Populer",
+  //   features: [
+  //     "1 halaman website",
+  //     "Desain responsif",
+  //     "Tombol WhatsApp",
+  //   ],
+  //   ctaLabel: "Pesan Sekarang",
+  // },
+];
+
+function getGridClassName(count: number) {
+  return cn(
+    "grid grid-cols-1 gap-6 md:grid-cols-2",
+    count === 1 && "lg:grid-cols-1",
+    count === 2 && "lg:grid-cols-2",
+    count >= 3 && "lg:grid-cols-3"
+  );
+}
+
 export function PricingSection() {
-  const { t } = useTranslation();
+  const groupedCategories = CATEGORY_ORDER.map((category) => ({
+    category,
+    items: PRICING_PACKAGES.filter((item) => item.category === category),
+  })).filter((group) => group.items.length > 0);
 
   return (
-    <section
-      id="pricing"
-      className="section-pad bg-bg-primary"
-      aria-labelledby="pricing-title"
-    >
-      <div className="mx-auto max-w-wide">
+    <section id="pricing" className="bg-primary py-section">
+      <div className="mx-auto max-w-content px-6">
         <SectionHeader
-          label={t("pri.label")}
-          title={
-            <>
-              {t("pri.title")}{" "}
-              <span className="italic-serif text-brand-navy">
-                {t("pri.italic")}
-              </span>
-            </>
-          }
-          subtitle={t("pri.subtitle")}
+          label="Harga Layanan"
+          title="Pilih paket website yang sesuai dengan kebutuhan brand Anda"
+          subtitle="Semua paket dirancang untuk tampil profesional, mudah diakses, dan siap membantu brand Anda terlihat lebih meyakinkan secara online."
+          className="mb-16"
         />
 
-        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3">
-          {pricingTiers.map((tier, i) => (
-            <Reveal key={tier.id} delay={i * 0.1}>
-              <PricingCard tier={tier} />
-            </Reveal>
-          ))}
-        </div>
+        {groupedCategories.length === 0 ? (
+          <Reveal
+            variant="fadeUp"
+            className="rounded-2xl border border-light bg-card p-6 shadow-sm"
+          >
+            <p className="text-body-md text-secondary">
+              Tempelkan data paket baru ke <span className="font-semibold">PRICING_PACKAGES</span>{" "}
+              di file ini.
+            </p>
+          </Reveal>
+        ) : (
+          <div className="space-y-16">
+            {groupedCategories.map(({ category, items }) => {
+              const isBundleCategory = category === "Paket Bundel Terbaik";
+              const categoryMeta = CATEGORY_COPY[category];
 
-        {/* Note */}
-        <Reveal className="mt-12 text-center" delay={0.4}>
-          <p className="mx-auto max-w-2xl text-body-sm text-text-muted">
-            {t("pri.note")}
-          </p>
-        </Reveal>
+              return (
+                <div
+                  key={category}
+                  className={cn(
+                    "space-y-8",
+                    isBundleCategory && "rounded-2xl bg-secondary p-6 md:p-8"
+                  )}
+                >
+                  <SectionHeader
+                    label={categoryMeta.label}
+                    title={category}
+                    subtitle={categoryMeta.subtitle}
+                    align="left"
+                    className="max-w-3xl"
+                  />
+
+                  <div className={getGridClassName(items.length)}>
+                    {items.map((pkg, index) => {
+                      const isPopular =
+                        pkg.badge?.toLowerCase().includes("populer") ?? false;
+
+                      return (
+                        <Reveal
+                          key={`${pkg.category}-${pkg.tier}-${pkg.title}`}
+                          as="article"
+                          variant="fadeUp"
+                          delay={index * 0.1}
+                          className="h-full"
+                        >
+                          <div
+                            className={cn(
+                              "flex h-full flex-col rounded-2xl border bg-card p-6 shadow-sm transition-transform duration-300",
+                              isPopular
+                                ? "border-accent-electric shadow-md md:scale-105"
+                                : "border-light"
+                            )}
+                          >
+                            <div className="mb-6 flex items-start justify-between gap-3">
+                              <span className="inline-flex rounded-full border border-light bg-secondary px-3 py-1 text-meta-sm font-semibold uppercase tracking-wide text-secondary">
+                                {pkg.tier}
+                              </span>
+
+                              {pkg.badge ? (
+                                <span
+                                  className={cn(
+                                    "inline-flex rounded-full px-3 py-1 text-meta-sm font-semibold text-on-dark",
+                                    isPopular
+                                      ? "bg-accent-electric animate-pulse"
+                                      : "bg-accent-pop"
+                                  )}
+                                >
+                                  {pkg.badge}
+                                </span>
+                              ) : null}
+                            </div>
+
+                            <div className="mb-6 space-y-3">
+                              <h3 className="font-sans text-body-lg font-bold text-primary">
+                                {pkg.title}
+                              </h3>
+                              <p className="text-body-sm text-secondary">
+                                {pkg.description}
+                              </p>
+                            </div>
+
+                            <div className="mb-6 border-b border-light pb-6">
+                              <div className="flex flex-wrap items-end">
+                                <span className="font-serif text-display-sm text-primary md:text-display-md">
+                                  {pkg.price}
+                                </span>
+
+                                {pkg.originalPrice ? (
+                                  <span className="ml-2 text-body-sm text-muted line-through">
+                                    {pkg.originalPrice}
+                                  </span>
+                                ) : null}
+                              </div>
+                            </div>
+
+                            <ul className="mb-8 space-y-3">
+                              {pkg.features.map((feature) => (
+                                <li
+                                  key={`${pkg.title}-${feature}`}
+                                  className="flex items-start gap-3"
+                                >
+                                  <Check
+                                    className="mt-0.5 h-4 w-4 shrink-0 text-accent-success"
+                                    aria-hidden="true"
+                                  />
+                                  <span className="text-body-sm text-secondary">
+                                    {feature}
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+
+                            <Button
+                              href="#kontak"
+                              variant={isPopular ? "electric" : "primary"}
+                              size="md"
+                              withArrow
+                              className="mt-auto w-full justify-center"
+                            >
+                              {pkg.ctaLabel}
+                            </Button>
+                          </div>
+                        </Reveal>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </section>
   );
 }
 
-function PricingCard({ tier }: { tier: PricingTier }) {
-  const { t, locale } = useTranslation();
-  const featured = tier.featured;
-
-  const message =
-    locale === "id"
-      ? `Halo Spacescale, saya tertarik diskusi paket ${tier.name.id}`
-      : `Hi Spacescale, I'd like to discuss the ${tier.name.en} package`;
-
-  return (
-    <article
-      className={cn(
-        "relative h-full rounded-3xl border p-10 transition-all duration-400",
-        featured
-          ? "scale-[1.04] border-text-primary bg-text-primary text-text-on-dark shadow-[0_20px_50px_rgba(10,14,31,0.2)] hover:scale-[1.04] hover:-translate-y-1.5 md:scale-[1.04]"
-          : "border-border-light bg-bg-card hover:-translate-y-1.5 hover:shadow-[0_30px_60px_rgba(10,14,31,0.1)]"
-      )}
-    >
-      {/* Featured badge */}
-      {featured && (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-accent-pop px-3.5 py-1.5 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-white">
-          {t("pri.badge")}
-        </div>
-      )}
-
-      {/* Tier label */}
-      <div
-        className={cn(
-          "mb-3 font-mono text-meta-sm uppercase tracking-[0.2em]",
-          featured ? "text-text-on-dark/60" : "text-text-muted"
-        )}
-      >
-        {tier.tier}
-      </div>
-
-      {/* Tier name */}
-      <div className="mb-4 font-sans text-[1.75rem] font-bold tracking-tight">
-        {tier.name[locale]}
-      </div>
-
-      {/* Price area */}
-      <div className="mb-2">
-        {tier.pricingType === "from" && tier.priceFrom ? (
-          <>
-            <div
-              className={cn(
-                "mb-1 font-mono text-meta-sm uppercase tracking-[0.15em]",
-                featured ? "text-text-on-dark/50" : "text-text-muted"
-              )}
-            >
-              {t("pri.startingFrom")}
-            </div>
-
-            {/* Crossed out original price */}
-            {tier.originalPrice && tier.originalPriceUnit && (
-              <div
-                className={cn(
-                  "mb-1 font-sans text-[1rem] line-through decoration-2",
-                  featured ? "text-text-on-dark/40" : "text-text-muted"
-                )}
-              >
-                Rp {tier.originalPrice} {tier.originalPriceUnit}
-              </div>
-            )}
-
-            {/* Current/promo price */}
-            <div className="flex items-baseline gap-1.5">
-              <span
-                className={cn(
-                  "font-mono text-[0.85rem]",
-                  featured ? "text-text-on-dark/50" : "text-text-muted"
-                )}
-              >
-                Rp
-              </span>
-              <span className="font-sans text-[2.5rem] font-bold leading-none tracking-tight">
-                {tier.priceFrom}
-                {tier.priceUnit}
-              </span>
-            </div>
-
-            {/* Promo savings note */}
-            {tier.promoNote && (
-              <div
-                className={cn(
-                  "mt-2 font-sans text-body-sm font-medium",
-                  featured ? "text-accent-electric" : "text-accent-success"
-                )}
-              >
-                {tier.promoNote[locale]}
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="font-sans text-[2rem] font-bold leading-none tracking-tight">
-            {t("pri.onRequest")}
-          </div>
-        )}
-      </div>
-
-      {/* Description */}
-      <p
-        className={cn(
-          "mb-6 mt-4 border-b pb-6 text-body-sm",
-          featured
-            ? "border-text-on-dark/10 text-text-on-dark/70"
-            : "border-border-light text-text-secondary"
-        )}
-      >
-        {tier.description[locale]}
-      </p>
-
-      {/* Features */}
-      <ul className="mb-8 space-y-2.5">
-        {tier.features[locale].map((feature) => (
-          <li
-            key={feature}
-            className={cn(
-              "flex items-start gap-3 text-body-sm",
-              featured ? "text-text-on-dark/85" : "text-text-secondary"
-            )}
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className={cn(
-                "mt-0.5 flex-shrink-0",
-                featured ? "text-accent-electric" : "text-brand-navy"
-              )}
-              aria-hidden="true"
-            >
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-            <span>{feature}</span>
-          </li>
-        ))}
-      </ul>
-
-      {/* CTA */}
-      <a
-        href={whatsappLink(message)}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={cn(
-          "block w-full rounded-xl py-3.5 text-center font-sans text-body-sm font-semibold transition-all duration-300",
-          featured
-            ? "bg-accent-electric text-white hover:bg-accent-pop"
-            : "bg-bg-secondary text-text-primary hover:bg-text-primary hover:text-bg-primary"
-        )}
-      >
-        {t("pri.cta")}
-      </a>
-    </article>
-  );
-}
+export default PricingSection;
