@@ -420,7 +420,7 @@ export function PricingSection() {
                   >
                     <div className="mb-4 flex items-center gap-4">
                       <span
-                        className="flex h-12 w-12 items-center justify-center rounded-2xl bg-bg-card text-2xl shadow-sm"
+                        className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-bg-card to-bg-secondary text-3xl shadow-sm ring-1 ring-border-light"
                         aria-hidden="true"
                       >
                         {emoji}
@@ -490,9 +490,9 @@ export function PricingSection() {
                               {pkg.badge && (
                                 <span
                                   className={cn(
-                                    "inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-sans text-[0.7rem] font-bold uppercase tracking-wider",
+                                    "inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-sans text-[0.7rem] font-bold uppercase tracking-wider shadow-sm",
                                     isPopular
-                                      ? "bg-accent-electric text-white"
+                                      ? "bg-gradient-to-r from-accent-electric to-accent-pop text-white"
                                       : "bg-accent-pop text-white"
                                   )}
                                 >
@@ -503,7 +503,7 @@ export function PricingSection() {
                             </div>
 
                             {/* Title */}
-                            <h4 className="mb-2 font-sans text-[1.2rem] font-bold leading-snug text-text-primary">
+                            <h4 className="mb-2 font-sans text-[1.2rem] font-bold leading-snug text-text-primary group-hover:text-brand-navy transition-colors duration-300">
                               {pkg.title}
                             </h4>
                             <p className="mb-6 text-body-sm leading-relaxed text-text-secondary">
@@ -511,7 +511,7 @@ export function PricingSection() {
                             </p>
 
                             {/* Price */}
-                            <div className="mb-6">
+                            <div className="mb-6 rounded-2xl bg-bg-secondary/50 px-4 py-3">
                               <div className="flex items-baseline gap-2">
                                 <span className="font-serif text-display-sm font-bold text-text-primary md:text-display-md">
                                   {pkg.price}
@@ -529,10 +529,10 @@ export function PricingSection() {
 
                             {/* Features */}
                             <ul className="mb-8 flex-1 space-y-3">
-                              {pkg.features.map((feature) => (
+                              {pkg.features.map((feature, i) => (
                                 <li
                                   key={`${pkg.title}-${feature}`}
-                                  className="flex items-start gap-3"
+                                  className="flex items-start gap-3 rounded-xl px-3 py-2 transition-colors duration-200 hover:bg-bg-secondary/60"
                                 >
                                   <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-success/10">
                                     <Check
