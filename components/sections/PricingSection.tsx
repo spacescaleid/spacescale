@@ -30,6 +30,16 @@ type PricingPackage = {
   ctaLabel: string;
 };
 
+const CATEGORY_EMOJI: Record<PricingCategory, string> = {
+  "Paket Personal & Perayaan": "🎂",
+  "Paket Undangan Digital": "💌",
+  "Paket Bisnis & UMKM": "🏪",
+  "Paket Portfolio Personal": "🎨",
+  "Paket Company Profile": "🏢",
+  "Paket Website Event": "🎪",
+  "Paket Bundel Terbaik": "🔥",
+};
+
 const CATEGORY_COPY: Record<
   PricingCategory,
   {
@@ -216,7 +226,7 @@ const PRICING_PACKAGES: PricingPackage[] = [
       "Portfolio lengkap untuk freelancer dan profesional muda.",
     price: "Rp549.000",
     originalPrice: "Rp799.000",
-    badge: "⭐ Populer",
+    badge: "Populer",
     features: [
       "5+ halaman lengkap",
       "Filter kategori karya",
@@ -307,13 +317,13 @@ const PRICING_PACKAGES: PricingPackage[] = [
   // ── Paket Bundel Terbaik ──
   {
     category: "Paket Bundel Terbaik",
-    tier: "⭐ Bundel",
+    tier: "Bundel",
     title: "Paket Bisnis Siap Online",
     description:
       "Landing Page + Company Profile + SEO — hemat Rp400.000.",
     price: "Rp699.000",
     originalPrice: "Rp1.100.000",
-    badge: "⭐ Populer",
+    badge: "Populer",
     features: [
       "Landing page konversi tinggi",
       "Company Profile 4 halaman",
@@ -363,8 +373,8 @@ const PRICING_PACKAGES: PricingPackage[] = [
 
 function getGridClassName(count: number) {
   return cn(
-    "grid grid-cols-1 gap-6 md:grid-cols-2",
-    count === 1 && "lg:grid-cols-1",
+    "grid grid-cols-1 gap-5 sm:grid-cols-2",
+    count === 1 && "lg:grid-cols-1 max-w-md",
     count === 2 && "lg:grid-cols-2",
     count >= 3 && "lg:grid-cols-3"
   );
@@ -377,154 +387,186 @@ export function PricingSection() {
   })).filter((group) => group.items.length > 0);
 
   return (
-    <section id="pricing" className="bg-bg-primary py-section">
-      <div className="mx-auto max-w-content px-6">
+    <section id="pricing" className="section-pad bg-bg-primary">
+      <div className="mx-auto max-w-wide px-6">
         <SectionHeader
           label="Harga Layanan"
           title={
             <>
               Pilih paket{" "}
-              <span className="italic-serif text-brand-navy">
-                website
-              </span>{" "}
+              <span className="italic-serif text-brand-navy">website</span>{" "}
               sesuai kebutuhan brand Anda
             </>
           }
           subtitle="Semua paket dirancang untuk tampil profesional, mudah diakses, dan siap membantu brand Anda terlihat lebih meyakinkan secara online."
-          className="mb-16"
         />
 
-        {groupedCategories.length === 0 ? (
-          <Reveal
-            variant="fadeUp"
-            className="rounded-2xl border border-border-light bg-bg-card p-6 shadow-sm"
-          >
-            <p className="text-body-md text-text-secondary">
-              Tempelkan data paket baru ke <span className="font-semibold">PRICING_PACKAGES</span>{" "}
-              di file ini.
-            </p>
-          </Reveal>
-        ) : (
-          <div className="space-y-16">
-            {groupedCategories.map(({ category, items }) => {
-              const isBundleCategory = category === "Paket Bundel Terbaik";
-              const categoryMeta = CATEGORY_COPY[category];
+        <div className="space-y-20">
+          {groupedCategories.map(({ category, items }) => {
+            const isBundleCategory = category === "Paket Bundel Terbaik";
+            const categoryMeta = CATEGORY_COPY[category];
+            const emoji = CATEGORY_EMOJI[category];
 
-              return (
-                <div
-                  key={category}
-                  className={cn(
-                    "space-y-8",
-                    isBundleCategory && "rounded-2xl bg-bg-secondary p-6 md:p-8"
-                  )}
-                >
-                  <SectionHeader
-                    label={categoryMeta.label}
-                    title={category}
-                    subtitle={categoryMeta.subtitle}
-                    align="left"
-                    className="max-w-3xl"
-                  />
+            return (
+              <div key={category}>
+                {/* Category Header */}
+                <Reveal>
+                  <div
+                    className={cn(
+                      "mb-10",
+                      isBundleCategory &&
+                        "-mx-6 rounded-3xl bg-bg-secondary px-6 py-8 md:-mx-8 md:px-8 md:py-10"
+                    )}
+                  >
+                    <div className="mb-4 flex items-center gap-4">
+                      <span
+                        className="flex h-12 w-12 items-center justify-center rounded-2xl bg-bg-card text-2xl shadow-sm"
+                        aria-hidden="true"
+                      >
+                        {emoji}
+                      </span>
+                      <div>
+                        <span className="font-mono text-meta-sm uppercase tracking-[0.15em] text-text-muted">
+                          {categoryMeta.label}
+                        </span>
+                        <h3 className="font-sans text-display-sm font-bold leading-tight text-text-primary">
+                          {category}
+                        </h3>
+                      </div>
+                    </div>
+                    <p className="max-w-xl text-body-md leading-relaxed text-text-secondary">
+                      {categoryMeta.subtitle}
+                    </p>
+                  </div>
+                </Reveal>
 
-                  <div className={getGridClassName(items.length)}>
-                    {items.map((pkg, index) => {
-                      const isPopular =
-                        pkg.badge?.toLowerCase().includes("populer") ?? false;
+                {/* Cards Grid */}
+                <div className={getGridClassName(items.length)}>
+                  {items.map((pkg, index) => {
+                    const isPopular =
+                      pkg.badge?.toLowerCase().includes("populer") ?? false;
 
-                      return (
-                        <Reveal
-                          key={`${pkg.category}-${pkg.tier}-${pkg.title}`}
-                          as="article"
-                          variant="fadeUp"
-                          delay={index * 0.1}
-                          className="h-full"
+                    return (
+                      <Reveal
+                        key={`${pkg.category}-${pkg.tier}-${pkg.title}`}
+                        as="article"
+                        variant="fadeUp"
+                        delay={index * 0.1}
+                        className="h-full"
+                      >
+                        <div
+                          className={cn(
+                            "group relative flex h-full flex-col overflow-hidden rounded-3xl border bg-bg-card transition-all duration-400 ease-smooth hover:-translate-y-1.5",
+                            isPopular
+                              ? "border-accent-electric shadow-[0_20px_40px_rgba(79,142,247,0.15)] md:scale-[1.02]"
+                              : "border-border-light hover:border-brand-navy hover:shadow-[0_20px_40px_rgba(10,14,31,0.08)]"
+                          )}
                         >
+                          {/* Animated top border */}
                           <div
                             className={cn(
-                              "flex h-full flex-col rounded-2xl border bg-bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg",
+                              "absolute left-0 top-0 h-1 w-full origin-left scale-x-0 transition-transform duration-400 group-hover:scale-x-100",
                               isPopular
-                                ? "border-accent-electric shadow-md md:scale-105"
-                                : "border-border-light hover:border-brand-navy"
+                                ? "bg-gradient-to-r from-accent-electric to-accent-pop"
+                                : "bg-gradient-to-r from-brand-navy to-accent-electric"
                             )}
-                          >
-                            <div className="mb-6 flex items-start justify-between gap-3">
-                              <span className="inline-flex rounded-full border border-border-light bg-bg-secondary px-3 py-1 text-meta-sm font-semibold uppercase tracking-wide text-text-secondary">
+                            aria-hidden="true"
+                          />
+
+                          {/* Popular glow effect */}
+                          {isPopular && (
+                            <div
+                              className="pointer-events-none absolute -right-20 -top-20 h-40 w-40 rounded-full bg-accent-electric/10 blur-3xl"
+                              aria-hidden="true"
+                            />
+                          )}
+
+                          <div className="relative flex flex-1 flex-col p-7 md:p-8">
+                            {/* Tier & Badge */}
+                            <div className="mb-5 flex items-center justify-between">
+                              <span className="inline-flex items-center gap-1.5 rounded-full border border-border-light bg-bg-secondary px-3.5 py-1.5 font-mono text-meta-sm font-semibold uppercase tracking-[0.1em] text-text-secondary">
                                 {pkg.tier}
                               </span>
-
-                              {pkg.badge ? (
+                              {pkg.badge && (
                                 <span
                                   className={cn(
-                                    "inline-flex rounded-full px-3 py-1 text-meta-sm font-semibold text-text-on-dark",
+                                    "inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-sans text-[0.7rem] font-bold uppercase tracking-wider",
                                     isPopular
-                                      ? "bg-accent-electric animate-pulse"
-                                      : "bg-accent-pop"
+                                      ? "bg-accent-electric text-white"
+                                      : "bg-accent-pop text-white"
                                   )}
                                 >
+                                  {isPopular && "⭐ "}
                                   {pkg.badge}
                                 </span>
-                              ) : null}
+                              )}
                             </div>
 
-                            <div className="mb-6 space-y-3">
-                              <h3 className="font-sans text-body-lg font-bold text-text-primary">
-                                {pkg.title}
-                              </h3>
-                              <p className="text-body-sm text-text-secondary">
-                                {pkg.description}
-                              </p>
-                            </div>
+                            {/* Title */}
+                            <h4 className="mb-2 font-sans text-[1.2rem] font-bold leading-snug text-text-primary">
+                              {pkg.title}
+                            </h4>
+                            <p className="mb-6 text-body-sm leading-relaxed text-text-secondary">
+                              {pkg.description}
+                            </p>
 
-                            <div className="mb-6 border-b border-border-light pb-6">
-                              <div className="flex flex-wrap items-end">
-                                <span className="font-serif text-display-sm text-text-primary md:text-display-md">
+                            {/* Price */}
+                            <div className="mb-6">
+                              <div className="flex items-baseline gap-2">
+                                <span className="font-serif text-display-sm font-bold text-text-primary md:text-display-md">
                                   {pkg.price}
                                 </span>
-
-                                {pkg.originalPrice ? (
-                                  <span className="ml-2 text-body-sm text-text-muted line-through">
-                                    {pkg.originalPrice}
-                                  </span>
-                                ) : null}
                               </div>
+                              {pkg.originalPrice && (
+                                <span className="mt-1 inline-block text-body-sm text-text-muted line-through">
+                                  {pkg.originalPrice}
+                                </span>
+                              )}
                             </div>
 
-                            <ul className="mb-8 space-y-3">
+                            {/* Divider */}
+                            <div className="mb-6 h-px bg-border-light" />
+
+                            {/* Features */}
+                            <ul className="mb-8 flex-1 space-y-3">
                               {pkg.features.map((feature) => (
                                 <li
                                   key={`${pkg.title}-${feature}`}
                                   className="flex items-start gap-3"
                                 >
-                                  <Check
-                                    className="mt-0.5 h-4 w-4 shrink-0 text-accent-success"
-                                    aria-hidden="true"
-                                  />
-                                  <span className="text-body-sm text-text-secondary">
+                                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-success/10">
+                                    <Check
+                                      className="h-3 w-3 text-accent-success"
+                                      aria-hidden="true"
+                                    />
+                                  </span>
+                                  <span className="text-[0.88rem] leading-snug text-text-primary/80">
                                     {feature}
                                   </span>
                                 </li>
                               ))}
                             </ul>
 
+                            {/* CTA */}
                             <Button
                               href="#kontak"
                               variant={isPopular ? "electric" : "primary"}
                               size="md"
                               withArrow
-                              className="mt-auto w-full justify-center"
+                              className="w-full justify-center"
                             >
                               {pkg.ctaLabel}
                             </Button>
                           </div>
-                        </Reveal>
-                      );
-                    })}
-                  </div>
+                        </div>
+                      </Reveal>
+                    );
+                  })}
                 </div>
-              );
-            })}
-          </div>
-        )}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
