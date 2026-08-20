@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/useTranslation";
+import type { Locale } from "@/lib/i18n/translations";
 
 const CATEGORY_ORDER = [
   "Paket Personal & Perayaan",
@@ -20,59 +22,54 @@ const CATEGORY_ORDER = [
 
 type PricingCategory = (typeof CATEGORY_ORDER)[number];
 
+type LocalizedString = { id: string; en: string };
+
 type PricingPackage = {
   category: PricingCategory;
   tier: string;
-  title: string;
-  description: string;
+  title: LocalizedString;
+  description: LocalizedString;
   price: string;
   originalPrice?: string;
-  badge?: string;
-  features: string[];
-  ctaLabel: string;
+  badge?: LocalizedString;
+  features: LocalizedString[];
+  ctaLabel: LocalizedString;
 };
 
 const CATEGORY_COPY: Record<
   PricingCategory,
   {
-    label: string;
-    subtitle: string;
+    labelKey: string;
+    subtitleKey: string;
   }
 > = {
   "Paket Personal & Perayaan": {
-    label: "Kategori 01",
-    subtitle:
-      "Untuk kebutuhan personal, halaman perayaan, dan landing page sederhana yang cepat online.",
+    labelKey: "pri.sec.cat.01",
+    subtitleKey: "pri.sec.sub.01",
   },
   "Paket Undangan Digital": {
-    label: "Kategori 02",
-    subtitle:
-      "Cocok untuk undangan online dengan tampilan rapi, mudah dibagikan, dan tetap elegan.",
+    labelKey: "pri.sec.cat.02",
+    subtitleKey: "pri.sec.sub.02",
   },
   "Paket Bisnis & UMKM": {
-    label: "Kategori 03",
-    subtitle:
-      "Untuk promosi bisnis, penawaran layanan, dan kebutuhan konversi yang lebih profesional.",
+    labelKey: "pri.sec.cat.03",
+    subtitleKey: "pri.sec.sub.03",
   },
   "Paket Portfolio Personal": {
-    label: "Kategori 04",
-    subtitle:
-      "Bangun personal branding untuk freelancer, kreator, profesional, dan talenta independen.",
+    labelKey: "pri.sec.cat.04",
+    subtitleKey: "pri.sec.sub.04",
   },
   "Paket Company Profile": {
-    label: "Kategori 05",
-    subtitle:
-      "Website representatif untuk membangun trust, kredibilitas, dan presentasi perusahaan.",
+    labelKey: "pri.sec.cat.05",
+    subtitleKey: "pri.sec.sub.05",
   },
   "Paket Website Event": {
-    label: "Kategori 06",
-    subtitle:
-      "Landing page event dengan informasi jelas, alur registrasi rapi, dan CTA yang kuat.",
+    labelKey: "pri.sec.cat.06",
+    subtitleKey: "pri.sec.sub.06",
   },
   "Paket Bundel Terbaik": {
-    label: "Bundel Spesial",
-    subtitle:
-      "Kombinasi paket paling worth it untuk brand yang ingin tampil lebih lengkap sekaligus hemat.",
+    labelKey: "pri.sec.cat.bundle",
+    subtitleKey: "pri.sec.sub.bundle",
   },
 };
 
@@ -80,258 +77,258 @@ const PRICING_PACKAGES: PricingPackage[] = [
   {
     category: "Paket Personal & Perayaan",
     tier: "Starter",
-    title: "Website Ucapan Ulang Tahun",
-    description: "Halaman ucapan spesial yang interaktif dan berkesan.",
+    title: { id: "Website Ucapan Ulang Tahun", en: "Birthday Greeting Website" },
+    description: { id: "Halaman ucapan spesial yang interaktif dan berkesan.", en: "A special interactive greeting page that leaves an impression." },
     price: "Rp99.000",
     originalPrice: "Rp149.000",
     features: [
-      "1 halaman ucapan custom",
-      "Animasi konfeti & efek interaktif",
-      "Musik latar pilihan",
-      "Upload foto pribadi",
-      "Link aktif 30 hari",
-      "Gratis 1x revisi",
+      { id: "1 halaman ucapan custom", en: "1 custom greeting page" },
+      { id: "Animasi konfeti & efek interaktif", en: "Confetti animation & interactive effects" },
+      { id: "Musik latar pilihan", en: "Background music options" },
+      { id: "Upload foto pribadi", en: "Upload personal photos" },
+      { id: "Link aktif 30 hari", en: "Link active for 30 days" },
+      { id: "Gratis 1x revisi", en: "Free 1 revision" },
     ],
-    ctaLabel: "Pesan Sekarang",
+    ctaLabel: { id: "Pesan Sekarang", en: "Order Now" },
   },
   {
     category: "Paket Personal & Perayaan",
     tier: "Plus",
-    title: "Website Ucapan Ulang Tahun Premium",
-    description: "Versi lebih lengkap untuk momen yang lebih berkesan.",
+    title: { id: "Website Ucapan Ulang Tahun Premium", en: "Premium Birthday Greeting Website" },
+    description: { id: "Versi lebih lengkap untuk momen yang lebih berkesan.", en: "A more complete version for a more memorable moment." },
     price: "Rp149.000",
     originalPrice: "Rp199.000",
     features: [
-      "Semua fitur Starter",
-      "Galeri foto (maks. 10 foto)",
-      "Pesan dari keluarga & teman",
-      "Countdown ulang tahun",
-      "Link aktif 60 hari",
-      "Gratis 2x revisi",
+      { id: "Semua fitur Starter", en: "All Starter features" },
+      { id: "Galeri foto (maks. 10 foto)", en: "Photo gallery (max. 10 photos)" },
+      { id: "Pesan dari keluarga & teman", en: "Messages from family & friends" },
+      { id: "Countdown ulang tahun", en: "Birthday countdown" },
+      { id: "Link aktif 60 hari", en: "Link active for 60 days" },
+      { id: "Gratis 2x revisi", en: "Free 2 revisions" },
     ],
-    ctaLabel: "Pesan Sekarang",
+    ctaLabel: { id: "Pesan Sekarang", en: "Order Now" },
   },
   {
     category: "Paket Undangan Digital",
     tier: "Starter",
-    title: "Undangan Digital Simpel",
-    description: "Elegan, hemat kertas, dan mudah dibagikan.",
+    title: { id: "Undangan Digital Simpel", en: "Simple Digital Invitation" },
+    description: { id: "Elegan, hemat kertas, dan mudah dibagikan.", en: "Elegant, paper-saving, and easy to share." },
     price: "Rp129.000",
     originalPrice: "Rp199.000",
     features: [
-      "Desain elegan pilihan",
-      "Countdown acara",
-      "Tombol Google Maps lokasi",
-      "Mobile-friendly",
-      "Link mudah dibagikan",
-      "Gratis 2x revisi",
+      { id: "Desain elegan pilihan", en: "Elegant design options" },
+      { id: "Countdown acara", en: "Event countdown" },
+      { id: "Tombol Google Maps lokasi", en: "Google Maps location button" },
+      { id: "Mobile-friendly", en: "Mobile-friendly" },
+      { id: "Link mudah dibagikan", en: "Easy to share link" },
+      { id: "Gratis 2x revisi", en: "Free 2 revisions" },
     ],
-    ctaLabel: "Pesan Sekarang",
+    ctaLabel: { id: "Pesan Sekarang", en: "Order Now" },
   },
   {
     category: "Paket Undangan Digital",
     tier: "Pro",
-    title: "Undangan Digital Premium",
-    description: "Lengkap dengan RSVP dan fitur tamu.",
+    title: { id: "Undangan Digital Premium", en: "Premium Digital Invitation" },
+    description: { id: "Lengkap dengan RSVP dan fitur tamu.", en: "Complete with RSVP and guest features." },
     price: "Rp249.000",
     originalPrice: "Rp349.000",
     features: [
-      "Semua fitur Simpel",
-      "Form RSVP online",
-      "Nama tamu otomatis",
-      "Galeri foto & love story",
-      "Musik latar romantis",
-      "Gratis 3x revisi",
+      { id: "Semua fitur Simpel", en: "All Simple features" },
+      { id: "Form RSVP online", en: "Online RSVP form" },
+      { id: "Nama tamu otomatis", en: "Automatic guest names" },
+      { id: "Galeri foto & love story", en: "Photo gallery & love story" },
+      { id: "Musik latar romantis", en: "Romantic background music" },
+      { id: "Gratis 3x revisi", en: "Free 3 revisions" },
     ],
-    ctaLabel: "Pesan Sekarang",
+    ctaLabel: { id: "Pesan Sekarang", en: "Order Now" },
   },
   {
     category: "Paket Bisnis & UMKM",
     tier: "Pro",
-    title: "Landing Page UMKM Basic",
-    description: "Cocok untuk toko online dan usaha kecil.",
+    title: { id: "Landing Page UMKM Basic", en: "SME Landing Page Basic" },
+    description: { id: "Cocok untuk toko online dan usaha kecil.", en: "Perfect for online stores and small businesses." },
     price: "Rp299.000",
     originalPrice: "Rp499.000",
     features: [
-      "1 halaman landing page",
-      "Tombol WhatsApp langsung",
-      "Menampilkan hingga 6 produk/jasa",
-      "Integrasi Google Maps",
-      "Desain mobile-first",
-      "Gratis 3x revisi",
+      { id: "1 halaman landing page", en: "1 landing page" },
+      { id: "Tombol WhatsApp langsung", en: "Direct WhatsApp button" },
+      { id: "Menampilkan hingga 6 produk/jasa", en: "Display up to 6 products/services" },
+      { id: "Integrasi Google Maps", en: "Google Maps integration" },
+      { id: "Desain mobile-first", en: "Mobile-first design" },
+      { id: "Gratis 3x revisi", en: "Free 3 revisions" },
     ],
-    ctaLabel: "Pesan Sekarang",
+    ctaLabel: { id: "Pesan Sekarang", en: "Order Now" },
   },
   {
     category: "Paket Bisnis & UMKM",
     tier: "Pro",
-    title: "Landing Page UMKM Plus",
-    description: "Untuk meningkatkan konversi dan jangkauan bisnis.",
+    title: { id: "Landing Page UMKM Plus", en: "SME Landing Page Plus" },
+    description: { id: "Untuk meningkatkan konversi dan jangkauan bisnis.", en: "To boost business conversion and reach." },
     price: "Rp449.000",
     originalPrice: "Rp699.000",
     features: [
-      "Semua fitur Basic",
-      "Produk/jasa tanpa batas",
-      "Form pemesanan online",
-      "Testimoni pelanggan",
-      "SEO dasar terpasang",
-      "Gratis 5x revisi",
+      { id: "Semua fitur Basic", en: "All Basic features" },
+      { id: "Produk/jasa tanpa batas", en: "Unlimited products/services" },
+      { id: "Form pemesanan online", en: "Online order form" },
+      { id: "Testimoni pelanggan", en: "Customer testimonials" },
+      { id: "SEO dasar terpasang", en: "Basic SEO installed" },
+      { id: "Gratis 5x revisi", en: "Free 5 revisions" },
     ],
-    ctaLabel: "Pesan Sekarang",
+    ctaLabel: { id: "Pesan Sekarang", en: "Order Now" },
   },
   {
     category: "Paket Portfolio Personal",
     tier: "Pro",
-    title: "Portfolio Personal Starter",
-    description: "Tampilkan karya dan keahlian Anda secara profesional.",
+    title: { id: "Portfolio Personal Starter", en: "Personal Portfolio Starter" },
+    description: { id: "Tampilkan karya dan keahlian Anda secara profesional.", en: "Showcase your work and skills professionally." },
     price: "Rp349.000",
     originalPrice: "Rp599.000",
     features: [
-      "3 halaman (Home, Portfolio, Kontak)",
-      "Galeri karya visual",
-      "Profil & keahlian",
-      "Form kontak aktif",
-      "Desain responsif",
-      "Gratis 3x revisi",
+      { id: "3 halaman (Home, Portfolio, Kontak)", en: "3 pages (Home, Portfolio, Contact)" },
+      { id: "Galeri karya visual", en: "Visual work gallery" },
+      { id: "Profil & keahlian", en: "Profile & skills" },
+      { id: "Form kontak aktif", en: "Active contact form" },
+      { id: "Desain responsif", en: "Responsive design" },
+      { id: "Gratis 3x revisi", en: "Free 3 revisions" },
     ],
-    ctaLabel: "Pesan Sekarang",
+    ctaLabel: { id: "Pesan Sekarang", en: "Order Now" },
   },
   {
     category: "Paket Portfolio Personal",
     tier: "Premium",
-    title: "Portfolio Personal Premium",
-    description: "Portfolio lengkap untuk freelancer dan profesional muda.",
+    title: { id: "Portfolio Personal Premium", en: "Personal Portfolio Premium" },
+    description: { id: "Portfolio lengkap untuk freelancer dan profesional muda.", en: "Complete portfolio for freelancers and young professionals." },
     price: "Rp549.000",
     originalPrice: "Rp799.000",
-    badge: "Populer",
+    badge: { id: "Populer", en: "Popular" },
     features: [
-      "5+ halaman lengkap",
-      "Filter kategori karya",
-      "Halaman CV digital",
-      "Integrasi media sosial",
-      "Google Analytics",
-      "Gratis 5x revisi",
+      { id: "5+ halaman lengkap", en: "5+ complete pages" },
+      { id: "Filter kategori karya", en: "Work category filter" },
+      { id: "Halaman CV digital", en: "Digital CV page" },
+      { id: "Integrasi media sosial", en: "Social media integration" },
+      { id: "Google Analytics", en: "Google Analytics" },
+      { id: "Gratis 5x revisi", en: "Free 5 revisions" },
     ],
-    ctaLabel: "Pesan Sekarang",
+    ctaLabel: { id: "Pesan Sekarang", en: "Order Now" },
   },
   {
     category: "Paket Company Profile",
     tier: "Pro",
-    title: "Company Profile Basic",
-    description: "Perkuat citra dan kredibilitas bisnis Anda.",
+    title: { id: "Company Profile Basic", en: "Company Profile Basic" },
+    description: { id: "Perkuat citra dan kredibilitas bisnis Anda.", en: "Strengthen your business image and credibility." },
     price: "Rp499.000",
     originalPrice: "Rp799.000",
     features: [
-      "4 halaman (Home, Tentang, Layanan, Kontak)",
-      "Profil perusahaan",
-      "Daftar layanan/produk",
-      "Form kontak aktif",
-      "Desain profesional",
-      "Gratis 3x revisi",
+      { id: "4 halaman (Home, Tentang, Layanan, Kontak)", en: "4 pages (Home, About, Services, Contact)" },
+      { id: "Profil perusahaan", en: "Company profile" },
+      { id: "Daftar layanan/produk", en: "Service/product listing" },
+      { id: "Form kontak aktif", en: "Active contact form" },
+      { id: "Desain profesional", en: "Professional design" },
+      { id: "Gratis 3x revisi", en: "Free 3 revisions" },
     ],
-    ctaLabel: "Pesan Sekarang",
+    ctaLabel: { id: "Pesan Sekarang", en: "Order Now" },
   },
   {
     category: "Paket Company Profile",
     tier: "Premium",
-    title: "Company Profile Premium",
-    description: "Representasi bisnis yang lebih profesional dan eksklusif.",
+    title: { id: "Company Profile Premium", en: "Company Profile Premium" },
+    description: { id: "Representasi bisnis yang lebih profesional dan eksklusif.", en: "A more professional and exclusive business representation." },
     price: "Rp799.000",
     originalPrice: "Rp1.200.000",
     features: [
-      "6+ halaman lengkap",
-      "Profil tim & struktur organisasi",
-      "Portfolio proyek",
-      "Blog/berita perusahaan",
-      "SEO & Google Analytics",
-      "Revisi unlimited selama 7 hari",
+      { id: "6+ halaman lengkap", en: "6+ complete pages" },
+      { id: "Profil tim & struktur organisasi", en: "Team profile & org structure" },
+      { id: "Portfolio proyek", en: "Project portfolio" },
+      { id: "Blog/berita perusahaan", en: "Company blog/news" },
+      { id: "SEO & Google Analytics", en: "SEO & Google Analytics" },
+      { id: "Revisi unlimited selama 7 hari", en: "Unlimited revisions for 7 days" },
     ],
-    ctaLabel: "Pesan Sekarang",
+    ctaLabel: { id: "Pesan Sekarang", en: "Order Now" },
   },
   {
     category: "Paket Website Event",
     tier: "Pro",
-    title: "Website Event Basic",
-    description: "Ideal untuk seminar, workshop, dan komunitas.",
+    title: { id: "Website Event Basic", en: "Event Website Basic" },
+    description: { id: "Ideal untuk seminar, workshop, dan komunitas.", en: "Ideal for seminars, workshops, and communities." },
     price: "Rp399.000",
     originalPrice: "Rp699.000",
     features: [
-      "Halaman event lengkap",
-      "Countdown acara",
-      "Form registrasi online",
-      "Profil pembicara",
-      "Jadwal & lokasi acara",
-      "Gratis 3x revisi",
+      { id: "Halaman event lengkap", en: "Complete event page" },
+      { id: "Countdown acara", en: "Event countdown" },
+      { id: "Form registrasi online", en: "Online registration form" },
+      { id: "Profil pembicara", en: "Speaker profiles" },
+      { id: "Jadwal & lokasi acara", en: "Schedule & event location" },
+      { id: "Gratis 3x revisi", en: "Free 3 revisions" },
     ],
-    ctaLabel: "Pesan Sekarang",
+    ctaLabel: { id: "Pesan Sekarang", en: "Order Now" },
   },
   {
     category: "Paket Website Event",
     tier: "Premium",
-    title: "Website Event Premium",
-    description: "Registrasi dan manajemen peserta yang terintegrasi.",
+    title: { id: "Website Event Premium", en: "Event Website Premium" },
+    description: { id: "Registrasi dan manajemen peserta yang terintegrasi.", en: "Integrated registration and attendee management." },
     price: "Rp649.000",
     originalPrice: "Rp999.000",
     features: [
-      "Semua fitur Basic",
-      "Dashboard manajemen peserta",
-      "E-ticket otomatis via email",
-      "Multi sesi & rundown acara",
-      "Integrasi pembayaran",
-      "Gratis 5x revisi",
+      { id: "Semua fitur Basic", en: "All Basic features" },
+      { id: "Dashboard manajemen peserta", en: "Attendee management dashboard" },
+      { id: "E-ticket otomatis via email", en: "Auto e-ticket via email" },
+      { id: "Multi sesi & rundown acara", en: "Multi-session & event rundown" },
+      { id: "Integrasi pembayaran", en: "Payment integration" },
+      { id: "Gratis 5x revisi", en: "Free 5 revisions" },
     ],
-    ctaLabel: "Pesan Sekarang",
+    ctaLabel: { id: "Pesan Sekarang", en: "Order Now" },
   },
   {
     category: "Paket Bundel Terbaik",
     tier: "Bundel",
-    title: "Paket Bisnis Siap Online",
-    description: "Landing Page + Company Profile + SEO — hemat Rp400.000.",
+    title: { id: "Paket Bisnis Siap Online", en: "Ready Online Business Package" },
+    description: { id: "Landing Page + Company Profile + SEO — hemat Rp400.000.", en: "Landing Page + Company Profile + SEO — save Rp400k." },
     price: "Rp699.000",
     originalPrice: "Rp1.100.000",
-    badge: "Populer",
+    badge: { id: "Populer", en: "Popular" },
     features: [
-      "Landing page konversi tinggi",
-      "Company Profile 4 halaman",
-      "Setup SEO & Google Business Profile",
-      "Domain .com gratis 1 tahun",
-      "Hosting gratis 1 tahun",
-      "Revisi unlimited selama 7 hari",
+      { id: "Landing page konversi tinggi", en: "High-converting landing page" },
+      { id: "Company Profile 4 halaman", en: "4-page Company Profile" },
+      { id: "Setup SEO & Google Business Profile", en: "SEO & Google Business Profile setup" },
+      { id: "Domain .com gratis 1 tahun", en: "Free .com domain for 1 year" },
+      { id: "Hosting gratis 1 tahun", en: "Free hosting for 1 year" },
+      { id: "Revisi unlimited selama 7 hari", en: "Unlimited revisions for 7 days" },
     ],
-    ctaLabel: "Mulai Sekarang",
+    ctaLabel: { id: "Mulai Sekarang", en: "Get Started" },
   },
   {
     category: "Paket Bundel Terbaik",
     tier: "Bundel",
-    title: "Paket Event Lengkap",
-    description: "Website Event + Undangan Digital — hemat Rp178.000.",
+    title: { id: "Paket Event Lengkap", en: "Complete Event Package" },
+    description: { id: "Website Event + Undangan Digital — hemat Rp178.000.", en: "Event Website + Digital Invitation — save Rp178k." },
     price: "Rp499.000",
     originalPrice: "Rp677.000",
     features: [
-      "Website event lengkap",
-      "Countdown acara",
-      "RSVP & form registrasi",
-      "Profil pembicara & rundown",
-      "Gratis 5x revisi",
+      { id: "Website event lengkap", en: "Complete event website" },
+      { id: "Countdown acara", en: "Event countdown" },
+      { id: "RSVP & form registrasi", en: "RSVP & registration form" },
+      { id: "Profil pembicara & rundown", en: "Speaker profiles & rundown" },
+      { id: "Gratis 5x revisi", en: "Free 5 revisions" },
     ],
-    ctaLabel: "Pesan Sekarang",
+    ctaLabel: { id: "Pesan Sekarang", en: "Order Now" },
   },
   {
     category: "Paket Bundel Terbaik",
     tier: "Bundel",
-    title: "Paket Kreator Digital",
-    description: "Portfolio Personal + Landing Page Bisnis — hemat Rp250.000.",
+    title: { id: "Paket Kreator Digital", en: "Digital Creator Package" },
+    description: { id: "Portfolio Personal + Landing Page Bisnis — hemat Rp250.000.", en: "Personal Portfolio + Business Landing Page — save Rp250k." },
     price: "Rp549.000",
     originalPrice: "Rp798.000",
     features: [
-      "Portfolio personal 3 halaman",
-      "Landing page bisnis/jasa",
-      "Galeri karya profesional",
-      "Form pemesanan online",
-      "Integrasi WhatsApp & media sosial",
-      "Gratis 5x revisi",
+      { id: "Portfolio personal 3 halaman", en: "3-page personal portfolio" },
+      { id: "Landing page bisnis/jasa", en: "Business/service landing page" },
+      { id: "Galeri karya profesional", en: "Professional work gallery" },
+      { id: "Form pemesanan online", en: "Online order form" },
+      { id: "Integrasi WhatsApp & media sosial", en: "WhatsApp & social media integration" },
+      { id: "Gratis 5x revisi", en: "Free 5 revisions" },
     ],
-    ctaLabel: "Pesan Sekarang",
+    ctaLabel: { id: "Pesan Sekarang", en: "Order Now" },
   },
 ];
 
@@ -349,12 +346,15 @@ function CategoryAccordion({
   items,
   isOpen,
   onToggle,
+  locale,
 }: {
   category: PricingCategory;
   items: PricingPackage[];
   isOpen: boolean;
   onToggle: () => void;
+  locale: Locale;
 }) {
+  const { t } = useTranslation();
   const isBundleCategory = category === "Paket Bundel Terbaik";
   const categoryMeta = CATEGORY_COPY[category];
   const panelId = `pricing-panel-${category}`;
@@ -382,7 +382,7 @@ function CategoryAccordion({
           <div className="flex items-center gap-4">
             <div className="flex flex-col">
               <span className="font-mono text-meta-sm uppercase tracking-[0.15em] text-text-muted">
-                {categoryMeta.label}
+                {t(categoryMeta.labelKey as any)}
               </span>
               <h4 className="font-sans text-display-sm font-bold leading-tight text-text-primary">
                 {category}
@@ -422,17 +422,18 @@ function CategoryAccordion({
           >
             <div className="px-7 pb-8 md:px-8 md:pb-10">
               <p className="mb-8 max-w-xl text-body-md leading-relaxed text-text-secondary">
-                {categoryMeta.subtitle}
+                {t(categoryMeta.subtitleKey as any)}
               </p>
 
               <div className={getGridClassName(items.length)}>
                 {items.map((pkg) => {
                   const isPopular =
-                    pkg.badge?.toLowerCase().includes("populer") ?? false;
+                    (pkg.badge?.id.toLowerCase().includes("populer") ?? false) ||
+                    (pkg.badge?.en.toLowerCase().includes("popular") ?? false);
 
                   return (
                     <article
-                      key={`${pkg.category}-${pkg.tier}-${pkg.title}`}
+                      key={`${pkg.category}-${pkg.tier}-${pkg.title.id}`}
                       className="h-full"
                     >
                       <div
@@ -474,16 +475,16 @@ function CategoryAccordion({
                                     : "bg-accent-pop text-white"
                                 )}
                               >
-                                {pkg.badge}
+                                {pkg.badge[locale]}
                               </span>
                             )}
                           </div>
 
                           <h5 className="mb-2 font-sans text-[1.2rem] font-bold leading-snug text-text-primary group-hover:text-brand-navy transition-colors duration-300">
-                            {pkg.title}
+                            {pkg.title[locale]}
                           </h5>
                           <p className="mb-6 text-body-sm leading-relaxed text-text-secondary">
-                            {pkg.description}
+                            {pkg.description[locale]}
                           </p>
 
                           <div className="mb-6 rounded-2xl bg-bg-secondary/50 px-4 py-4 text-center">
@@ -497,12 +498,10 @@ function CategoryAccordion({
                             )}
                           </div>
 
-
-
                           <ul className="mb-6 flex-1 space-y-2">
                             {pkg.features.map((feature) => (
                               <li
-                                key={`${pkg.title}-${feature}`}
+                                key={`${pkg.title.id}-${feature.id}`}
                                 className="flex items-start gap-2.5"
                               >
                                 <Check
@@ -510,7 +509,7 @@ function CategoryAccordion({
                                   aria-hidden="true"
                                 />
                                 <span className="text-[0.82rem] leading-snug text-text-primary/80">
-                                  {feature}
+                                  {feature[locale]}
                                 </span>
                               </li>
                             ))}
@@ -523,7 +522,7 @@ function CategoryAccordion({
                             withArrow
                             className="w-full justify-center"
                           >
-                            {pkg.ctaLabel}
+                            {pkg.ctaLabel[locale]}
                           </Button>
                         </div>
                       </div>
@@ -540,6 +539,8 @@ function CategoryAccordion({
 }
 
 export function PricingSection() {
+  const { t, locale } = useTranslation();
+
   const groupedCategories = CATEGORY_ORDER.map((category) => ({
     category,
     items: PRICING_PACKAGES.filter((item) => item.category === category),
@@ -555,15 +556,15 @@ export function PricingSection() {
     <section id="pricing" className="section-pad bg-bg-primary">
       <div className="mx-auto max-w-wide px-6">
         <SectionHeader
-          label="Harga Layanan"
+          label={t("pri.sec.label")}
           title={
             <>
-              Pilih paket{" "}
-              <span className="italic-serif text-brand-navy">website</span>{" "}
-              sesuai kebutuhan brand Anda
+              {t("pri.sec.title")}{" "}
+              <span className="italic-serif text-brand-navy">{t("pri.sec.italic")}</span>{" "}
+              {t("pri.sec.titleSuffix")}
             </>
           }
-          subtitle="Semua paket dirancang untuk tampil profesional, mudah diakses, dan siap membantu brand Anda terlihat lebih meyakinkan secara online."
+          subtitle={t("pri.sec.subtitle")}
         />
 
         <div className="mx-auto max-w-editorial space-y-3">
@@ -574,6 +575,7 @@ export function PricingSection() {
                 items={items}
                 isOpen={openIndex === i}
                 onToggle={() => toggle(i)}
+                locale={locale}
               />
             </Reveal>
           ))}
