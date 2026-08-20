@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
@@ -28,16 +30,6 @@ type PricingPackage = {
   badge?: string;
   features: string[];
   ctaLabel: string;
-};
-
-const CATEGORY_EMOJI: Record<PricingCategory, string> = {
-  "Paket Personal & Perayaan": "🎂",
-  "Paket Undangan Digital": "💌",
-  "Paket Bisnis & UMKM": "🏪",
-  "Paket Portfolio Personal": "🎨",
-  "Paket Company Profile": "🏢",
-  "Paket Website Event": "🎪",
-  "Paket Bundel Terbaik": "🔥",
 };
 
 const CATEGORY_COPY: Record<
@@ -85,13 +77,11 @@ const CATEGORY_COPY: Record<
 };
 
 const PRICING_PACKAGES: PricingPackage[] = [
-  // ── Paket Personal & Perayaan ──
   {
     category: "Paket Personal & Perayaan",
     tier: "Starter",
     title: "Website Ucapan Ulang Tahun",
-    description:
-      "Halaman ucapan spesial yang interaktif dan berkesan.",
+    description: "Halaman ucapan spesial yang interaktif dan berkesan.",
     price: "Rp99.000",
     originalPrice: "Rp149.000",
     features: [
@@ -108,8 +98,7 @@ const PRICING_PACKAGES: PricingPackage[] = [
     category: "Paket Personal & Perayaan",
     tier: "Plus",
     title: "Website Ucapan Ulang Tahun Premium",
-    description:
-      "Versi lebih lengkap untuk momen yang lebih berkesan.",
+    description: "Versi lebih lengkap untuk momen yang lebih berkesan.",
     price: "Rp149.000",
     originalPrice: "Rp199.000",
     features: [
@@ -122,14 +111,11 @@ const PRICING_PACKAGES: PricingPackage[] = [
     ],
     ctaLabel: "Pesan Sekarang",
   },
-
-  // ── Paket Undangan Digital ──
   {
     category: "Paket Undangan Digital",
     tier: "Starter",
     title: "Undangan Digital Simpel",
-    description:
-      "Elegan, hemat kertas, dan mudah dibagikan.",
+    description: "Elegan, hemat kertas, dan mudah dibagikan.",
     price: "Rp129.000",
     originalPrice: "Rp199.000",
     features: [
@@ -146,8 +132,7 @@ const PRICING_PACKAGES: PricingPackage[] = [
     category: "Paket Undangan Digital",
     tier: "Pro",
     title: "Undangan Digital Premium",
-    description:
-      "Lengkap dengan RSVP dan fitur tamu.",
+    description: "Lengkap dengan RSVP dan fitur tamu.",
     price: "Rp249.000",
     originalPrice: "Rp349.000",
     features: [
@@ -160,14 +145,11 @@ const PRICING_PACKAGES: PricingPackage[] = [
     ],
     ctaLabel: "Pesan Sekarang",
   },
-
-  // ── Paket Bisnis & UMKM ──
   {
     category: "Paket Bisnis & UMKM",
     tier: "Pro",
     title: "Landing Page UMKM Basic",
-    description:
-      "Cocok untuk toko online dan usaha kecil.",
+    description: "Cocok untuk toko online dan usaha kecil.",
     price: "Rp299.000",
     originalPrice: "Rp499.000",
     features: [
@@ -184,8 +166,7 @@ const PRICING_PACKAGES: PricingPackage[] = [
     category: "Paket Bisnis & UMKM",
     tier: "Pro",
     title: "Landing Page UMKM Plus",
-    description:
-      "Untuk meningkatkan konversi dan jangkauan bisnis.",
+    description: "Untuk meningkatkan konversi dan jangkauan bisnis.",
     price: "Rp449.000",
     originalPrice: "Rp699.000",
     features: [
@@ -198,14 +179,11 @@ const PRICING_PACKAGES: PricingPackage[] = [
     ],
     ctaLabel: "Pesan Sekarang",
   },
-
-  // ── Paket Portfolio Personal ──
   {
     category: "Paket Portfolio Personal",
     tier: "Pro",
     title: "Portfolio Personal Starter",
-    description:
-      "Tampilkan karya dan keahlian Anda secara profesional.",
+    description: "Tampilkan karya dan keahlian Anda secara profesional.",
     price: "Rp349.000",
     originalPrice: "Rp599.000",
     features: [
@@ -222,8 +200,7 @@ const PRICING_PACKAGES: PricingPackage[] = [
     category: "Paket Portfolio Personal",
     tier: "Premium",
     title: "Portfolio Personal Premium",
-    description:
-      "Portfolio lengkap untuk freelancer dan profesional muda.",
+    description: "Portfolio lengkap untuk freelancer dan profesional muda.",
     price: "Rp549.000",
     originalPrice: "Rp799.000",
     badge: "Populer",
@@ -237,14 +214,11 @@ const PRICING_PACKAGES: PricingPackage[] = [
     ],
     ctaLabel: "Pesan Sekarang",
   },
-
-  // ── Paket Company Profile ──
   {
     category: "Paket Company Profile",
     tier: "Pro",
     title: "Company Profile Basic",
-    description:
-      "Perkuat citra dan kredibilitas bisnis Anda.",
+    description: "Perkuat citra dan kredibilitas bisnis Anda.",
     price: "Rp499.000",
     originalPrice: "Rp799.000",
     features: [
@@ -261,8 +235,7 @@ const PRICING_PACKAGES: PricingPackage[] = [
     category: "Paket Company Profile",
     tier: "Premium",
     title: "Company Profile Premium",
-    description:
-      "Representasi bisnis yang lebih profesional dan eksklusif.",
+    description: "Representasi bisnis yang lebih profesional dan eksklusif.",
     price: "Rp799.000",
     originalPrice: "Rp1.200.000",
     features: [
@@ -275,14 +248,11 @@ const PRICING_PACKAGES: PricingPackage[] = [
     ],
     ctaLabel: "Pesan Sekarang",
   },
-
-  // ── Paket Website Event ──
   {
     category: "Paket Website Event",
     tier: "Pro",
     title: "Website Event Basic",
-    description:
-      "Ideal untuk seminar, workshop, dan komunitas.",
+    description: "Ideal untuk seminar, workshop, dan komunitas.",
     price: "Rp399.000",
     originalPrice: "Rp699.000",
     features: [
@@ -299,8 +269,7 @@ const PRICING_PACKAGES: PricingPackage[] = [
     category: "Paket Website Event",
     tier: "Premium",
     title: "Website Event Premium",
-    description:
-      "Registrasi dan manajemen peserta yang terintegrasi.",
+    description: "Registrasi dan manajemen peserta yang terintegrasi.",
     price: "Rp649.000",
     originalPrice: "Rp999.000",
     features: [
@@ -313,14 +282,11 @@ const PRICING_PACKAGES: PricingPackage[] = [
     ],
     ctaLabel: "Pesan Sekarang",
   },
-
-  // ── Paket Bundel Terbaik ──
   {
     category: "Paket Bundel Terbaik",
     tier: "Bundel",
     title: "Paket Bisnis Siap Online",
-    description:
-      "Landing Page + Company Profile + SEO — hemat Rp400.000.",
+    description: "Landing Page + Company Profile + SEO — hemat Rp400.000.",
     price: "Rp699.000",
     originalPrice: "Rp1.100.000",
     badge: "Populer",
@@ -338,8 +304,7 @@ const PRICING_PACKAGES: PricingPackage[] = [
     category: "Paket Bundel Terbaik",
     tier: "Bundel",
     title: "Paket Event Lengkap",
-    description:
-      "Website Event + Undangan Digital — hemat Rp178.000.",
+    description: "Website Event + Undangan Digital — hemat Rp178.000.",
     price: "Rp499.000",
     originalPrice: "Rp677.000",
     features: [
@@ -355,8 +320,7 @@ const PRICING_PACKAGES: PricingPackage[] = [
     category: "Paket Bundel Terbaik",
     tier: "Bundel",
     title: "Paket Kreator Digital",
-    description:
-      "Portfolio Personal + Landing Page Bisnis — hemat Rp250.000.",
+    description: "Portfolio Personal + Landing Page Bisnis — hemat Rp250.000.",
     price: "Rp549.000",
     originalPrice: "Rp798.000",
     features: [
@@ -380,11 +344,216 @@ function getGridClassName(count: number) {
   );
 }
 
+function CategoryAccordion({
+  category,
+  items,
+  isOpen,
+  onToggle,
+}: {
+  category: PricingCategory;
+  items: PricingPackage[];
+  isOpen: boolean;
+  onToggle: () => void;
+}) {
+  const isBundleCategory = category === "Paket Bundel Terbaik";
+  const categoryMeta = CATEGORY_COPY[category];
+  const panelId = `pricing-panel-${category}`;
+  const triggerId = `pricing-trigger-${category}`;
+
+  return (
+    <div
+      className={cn(
+        "overflow-hidden rounded-3xl border transition-all duration-300",
+        isOpen
+          ? "border-brand-navy shadow-[0_8px_30px_rgba(10,14,31,0.06)]"
+          : "border-border-light hover:border-text-primary/15",
+        isBundleCategory && "bg-bg-secondary"
+      )}
+    >
+      <h3>
+        <button
+          type="button"
+          id={triggerId}
+          onClick={onToggle}
+          aria-expanded={isOpen}
+          aria-controls={panelId}
+          className="flex w-full items-center justify-between gap-4 p-7 text-left transition-colors duration-200 hover:bg-bg-secondary/40 md:p-8"
+        >
+          <div className="flex items-center gap-4">
+            <div className="flex flex-col">
+              <span className="font-mono text-meta-sm uppercase tracking-[0.15em] text-text-muted">
+                {categoryMeta.label}
+              </span>
+              <h4 className="font-sans text-display-sm font-bold leading-tight text-text-primary">
+                {category}
+              </h4>
+            </div>
+          </div>
+          <motion.span
+            className={cn(
+              "flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-xl leading-none transition-colors duration-300",
+              isOpen
+                ? "bg-brand-navy text-bg-primary"
+                : "bg-bg-secondary text-text-primary"
+            )}
+            animate={{ rotate: isOpen ? 45 : 0 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            aria-hidden="true"
+          >
+            +
+          </motion.span>
+        </button>
+      </h3>
+
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            id={panelId}
+            role="region"
+            aria-labelledby={triggerId}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{
+              height: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
+              opacity: { duration: 0.3, delay: 0.1 },
+            }}
+            className="overflow-hidden"
+          >
+            <div className="px-7 pb-8 md:px-8 md:pb-10">
+              <p className="mb-8 max-w-xl text-body-md leading-relaxed text-text-secondary">
+                {categoryMeta.subtitle}
+              </p>
+
+              <div className={getGridClassName(items.length)}>
+                {items.map((pkg) => {
+                  const isPopular =
+                    pkg.badge?.toLowerCase().includes("populer") ?? false;
+
+                  return (
+                    <article
+                      key={`${pkg.category}-${pkg.tier}-${pkg.title}`}
+                      className="h-full"
+                    >
+                      <div
+                        className={cn(
+                          "group relative flex h-full flex-col overflow-hidden rounded-3xl border bg-bg-card transition-all duration-400 ease-smooth hover:-translate-y-1.5",
+                          isPopular
+                            ? "border-accent-electric shadow-[0_20px_40px_rgba(79,142,247,0.15)] md:scale-[1.02]"
+                            : "border-border-light hover:border-brand-navy hover:shadow-[0_20px_40px_rgba(10,14,31,0.08)]"
+                        )}
+                      >
+                        <div
+                          className={cn(
+                            "absolute left-0 top-0 h-1 w-full origin-left scale-x-0 transition-transform duration-400 group-hover:scale-x-100",
+                            isPopular
+                              ? "bg-gradient-to-r from-accent-electric to-accent-pop"
+                              : "bg-gradient-to-r from-brand-navy to-accent-electric"
+                          )}
+                          aria-hidden="true"
+                        />
+
+                        {isPopular && (
+                          <div
+                            className="pointer-events-none absolute -right-20 -top-20 h-40 w-40 rounded-full bg-accent-electric/10 blur-3xl"
+                            aria-hidden="true"
+                          />
+                        )}
+
+                        <div className="relative flex flex-1 flex-col p-7 md:p-8">
+                          <div className="mb-5 flex items-center justify-between">
+                            <span className="inline-flex items-center gap-1.5 rounded-full border border-border-light bg-bg-secondary px-3.5 py-1.5 font-mono text-meta-sm font-semibold uppercase tracking-[0.1em] text-text-secondary">
+                              {pkg.tier}
+                            </span>
+                            {pkg.badge && (
+                              <span
+                                className={cn(
+                                  "inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-sans text-[0.7rem] font-bold uppercase tracking-wider shadow-sm",
+                                  isPopular
+                                    ? "bg-gradient-to-r from-accent-electric to-accent-pop text-white"
+                                    : "bg-accent-pop text-white"
+                                )}
+                              >
+                                {pkg.badge}
+                              </span>
+                            )}
+                          </div>
+
+                          <h5 className="mb-2 font-sans text-[1.2rem] font-bold leading-snug text-text-primary group-hover:text-brand-navy transition-colors duration-300">
+                            {pkg.title}
+                          </h5>
+                          <p className="mb-6 text-body-sm leading-relaxed text-text-secondary">
+                            {pkg.description}
+                          </p>
+
+                          <div className="mb-6 rounded-2xl bg-bg-secondary/50 px-4 py-3">
+                            <div className="flex items-baseline gap-2">
+                              <span className="font-serif text-display-sm font-bold text-text-primary md:text-display-md">
+                                {pkg.price}
+                              </span>
+                            </div>
+                            {pkg.originalPrice && (
+                              <span className="mt-1 inline-block text-body-sm text-text-muted line-through">
+                                {pkg.originalPrice}
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="mb-6 h-px bg-border-light" />
+
+                          <ul className="mb-8 flex-1 space-y-3">
+                            {pkg.features.map((feature) => (
+                              <li
+                                key={`${pkg.title}-${feature}`}
+                                className="flex items-start gap-3 rounded-xl px-3 py-2 transition-colors duration-200 hover:bg-bg-secondary/60"
+                              >
+                                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-success/10">
+                                  <Check
+                                    className="h-3 w-3 text-accent-success"
+                                    aria-hidden="true"
+                                  />
+                                </span>
+                                <span className="text-[0.88rem] leading-snug text-text-primary/80">
+                                  {feature}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+
+                          <Button
+                            href="#kontak"
+                            variant={isPopular ? "electric" : "primary"}
+                            size="md"
+                            withArrow
+                            className="w-full justify-center"
+                          >
+                            {pkg.ctaLabel}
+                          </Button>
+                        </div>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export function PricingSection() {
   const groupedCategories = CATEGORY_ORDER.map((category) => ({
     category,
     items: PRICING_PACKAGES.filter((item) => item.category === category),
   })).filter((group) => group.items.length > 0);
+
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggle = useCallback((index: number) => {
+    setOpenIndex((prev) => (prev === index ? null : index));
+  }, []);
 
   return (
     <section id="pricing" className="section-pad bg-bg-primary">
@@ -401,171 +570,17 @@ export function PricingSection() {
           subtitle="Semua paket dirancang untuk tampil profesional, mudah diakses, dan siap membantu brand Anda terlihat lebih meyakinkan secara online."
         />
 
-        <div className="space-y-20">
-          {groupedCategories.map(({ category, items }) => {
-            const isBundleCategory = category === "Paket Bundel Terbaik";
-            const categoryMeta = CATEGORY_COPY[category];
-            const emoji = CATEGORY_EMOJI[category];
-
-            return (
-              <div key={category}>
-                {/* Category Header */}
-                <Reveal>
-                  <div
-                    className={cn(
-                      "mb-10",
-                      isBundleCategory &&
-                        "-mx-6 rounded-3xl bg-bg-secondary px-6 py-8 md:-mx-8 md:px-8 md:py-10"
-                    )}
-                  >
-                    <div className="mb-4 flex items-center gap-4">
-                      <span
-                        className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-bg-card to-bg-secondary text-3xl shadow-sm ring-1 ring-border-light"
-                        aria-hidden="true"
-                      >
-                        {emoji}
-                      </span>
-                      <div>
-                        <span className="font-mono text-meta-sm uppercase tracking-[0.15em] text-text-muted">
-                          {categoryMeta.label}
-                        </span>
-                        <h3 className="font-sans text-display-sm font-bold leading-tight text-text-primary">
-                          {category}
-                        </h3>
-                      </div>
-                    </div>
-                    <p className="max-w-xl text-body-md leading-relaxed text-text-secondary">
-                      {categoryMeta.subtitle}
-                    </p>
-                  </div>
-                </Reveal>
-
-                {/* Cards Grid */}
-                <div className={getGridClassName(items.length)}>
-                  {items.map((pkg, index) => {
-                    const isPopular =
-                      pkg.badge?.toLowerCase().includes("populer") ?? false;
-
-                    return (
-                      <Reveal
-                        key={`${pkg.category}-${pkg.tier}-${pkg.title}`}
-                        as="article"
-                        variant="fadeUp"
-                        delay={index * 0.1}
-                        className="h-full"
-                      >
-                        <div
-                          className={cn(
-                            "group relative flex h-full flex-col overflow-hidden rounded-3xl border bg-bg-card transition-all duration-400 ease-smooth hover:-translate-y-1.5",
-                            isPopular
-                              ? "border-accent-electric shadow-[0_20px_40px_rgba(79,142,247,0.15)] md:scale-[1.02]"
-                              : "border-border-light hover:border-brand-navy hover:shadow-[0_20px_40px_rgba(10,14,31,0.08)]"
-                          )}
-                        >
-                          {/* Animated top border */}
-                          <div
-                            className={cn(
-                              "absolute left-0 top-0 h-1 w-full origin-left scale-x-0 transition-transform duration-400 group-hover:scale-x-100",
-                              isPopular
-                                ? "bg-gradient-to-r from-accent-electric to-accent-pop"
-                                : "bg-gradient-to-r from-brand-navy to-accent-electric"
-                            )}
-                            aria-hidden="true"
-                          />
-
-                          {/* Popular glow effect */}
-                          {isPopular && (
-                            <div
-                              className="pointer-events-none absolute -right-20 -top-20 h-40 w-40 rounded-full bg-accent-electric/10 blur-3xl"
-                              aria-hidden="true"
-                            />
-                          )}
-
-                          <div className="relative flex flex-1 flex-col p-7 md:p-8">
-                            {/* Tier & Badge */}
-                            <div className="mb-5 flex items-center justify-between">
-                              <span className="inline-flex items-center gap-1.5 rounded-full border border-border-light bg-bg-secondary px-3.5 py-1.5 font-mono text-meta-sm font-semibold uppercase tracking-[0.1em] text-text-secondary">
-                                {pkg.tier}
-                              </span>
-                              {pkg.badge && (
-                                <span
-                                  className={cn(
-                                    "inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-sans text-[0.7rem] font-bold uppercase tracking-wider shadow-sm",
-                                    isPopular
-                                      ? "bg-gradient-to-r from-accent-electric to-accent-pop text-white"
-                                      : "bg-accent-pop text-white"
-                                  )}
-                                >
-                                  {isPopular && "⭐ "}
-                                  {pkg.badge}
-                                </span>
-                              )}
-                            </div>
-
-                            {/* Title */}
-                            <h4 className="mb-2 font-sans text-[1.2rem] font-bold leading-snug text-text-primary group-hover:text-brand-navy transition-colors duration-300">
-                              {pkg.title}
-                            </h4>
-                            <p className="mb-6 text-body-sm leading-relaxed text-text-secondary">
-                              {pkg.description}
-                            </p>
-
-                            {/* Price */}
-                            <div className="mb-6 rounded-2xl bg-bg-secondary/50 px-4 py-3">
-                              <div className="flex items-baseline gap-2">
-                                <span className="font-serif text-display-sm font-bold text-text-primary md:text-display-md">
-                                  {pkg.price}
-                                </span>
-                              </div>
-                              {pkg.originalPrice && (
-                                <span className="mt-1 inline-block text-body-sm text-text-muted line-through">
-                                  {pkg.originalPrice}
-                                </span>
-                              )}
-                            </div>
-
-                            {/* Divider */}
-                            <div className="mb-6 h-px bg-border-light" />
-
-                            {/* Features */}
-                            <ul className="mb-8 flex-1 space-y-3">
-                              {pkg.features.map((feature, i) => (
-                                <li
-                                  key={`${pkg.title}-${feature}`}
-                                  className="flex items-start gap-3 rounded-xl px-3 py-2 transition-colors duration-200 hover:bg-bg-secondary/60"
-                                >
-                                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-success/10">
-                                    <Check
-                                      className="h-3 w-3 text-accent-success"
-                                      aria-hidden="true"
-                                    />
-                                  </span>
-                                  <span className="text-[0.88rem] leading-snug text-text-primary/80">
-                                    {feature}
-                                  </span>
-                                </li>
-                              ))}
-                            </ul>
-
-                            {/* CTA */}
-                            <Button
-                              href="#kontak"
-                              variant={isPopular ? "electric" : "primary"}
-                              size="md"
-                              withArrow
-                              className="w-full justify-center"
-                            >
-                              {pkg.ctaLabel}
-                            </Button>
-                          </div>
-                        </div>
-                      </Reveal>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
+        <div className="mx-auto max-w-editorial space-y-3">
+          {groupedCategories.map(({ category, items }, i) => (
+            <Reveal key={category} delay={i * 0.05}>
+              <CategoryAccordion
+                category={category}
+                items={items}
+                isOpen={openIndex === i}
+                onToggle={() => toggle(i)}
+              />
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
