@@ -19,7 +19,7 @@ export const translations = {
     "hero.title.1": "Beyond Templates.",
     "hero.title.2": "Built to Convert.",
     "hero.subtitle":
-      "Studio web premium untuk brand Indonesia yang serius tumbuh. Custom design, performance-first, dan strategi konversi yang teruji.",
+      "Jasa pembuatan website premium untuk brand Indonesia yang serius tumbuh — landing page, company profile, dan website custom dengan desain eksklusif, performa cepat (Lighthouse 90+), dan strategi konversi yang teruji.",
     "hero.cta.primary": "Lihat Karya",
     "hero.cta.secondary": "Konsultasi Gratis",
     "hero.stat.1": "Demo Projects",
@@ -69,10 +69,10 @@ export const translations = {
 
     // Services
     "srv.label": "WHAT WE DO",
-    "srv.title": "Layanan untuk",
-    "srv.italic": "setiap kebutuhan.",
+    "srv.title": "Layanan pembuatan website untuk setiap kebutuhan bisnis.",
+    "srv.italic": "",
     "srv.subtitle":
-      "Saat ini kami fokus di frontend development. Dari landing page hingga company profile, semua dengan standar premium.",
+      "Dari landing page konversi tinggi, company profile profesional, hingga redesign website lama — semua dikerjakan dengan standar premium dan performa terbaik.",
 
     // Process
     "prc.label": "HOW WE WORK",
@@ -84,7 +84,8 @@ export const translations = {
     // Why
     "why.label": "WHY SPACESCALE",
     "why.title.1": "Bukan freelancer biasa.",
-    "why.italic": "Studio dengan standar.",
+    "why.italic": "Studio web premium dengan standar internasional.",
+    "why.subtitle": "Kami bukan sekadar jasa buat website — kami studio yang menggabungkan strategi bisnis, desain custom, dan performa teknis dalam satu proses kerja yang transparan.",
 
     // Pricing
     "pri.label": "INVESTMENT",
@@ -145,10 +146,10 @@ export const translations = {
 
     // CTA
     "cta.badge": "SLOT TERBATAS · 3 PROJECT/BULAN",
-    "cta.title.1": "Siap untuk",
-    "cta.italic": "naik level?",
+    "cta.title.1": "Siap punya website yang benar-benar bekerja untuk bisnis Anda?",
+    "cta.italic": "",
     "cta.subtitle":
-      "Konsultasi gratis 30 menit. Kita diskusi goal Anda, dan kasih saran jujur — tanpa hard sell.",
+      "Konsultasi gratis 30 menit bersama tim Spacescale — studio jasa pembuatan website premium di Indonesia. Diskusikan goal Anda, dan dapatkan saran jujur tanpa hard sell.",
     "cta.btn.1": "Chat WhatsApp",
     "cta.btn.2": "Email Kami",
 
@@ -166,7 +167,7 @@ export const translations = {
     "ftr.contact": "CONTACT",
     "ftr.instagram": "Instagram",
     "ftr.schedule": "Schedule Call",
-    "ftr.copyright": "© 2026 Spacescale.id · Built with care in Indonesia",
+    "ftr.copyright": "© 2026 Spacescale · Built with care in Indonesia",
     "ftr.status": "ACCEPTING PROJECTS",
 
     // Work page
@@ -200,7 +201,7 @@ export const translations = {
     "hero.title.1": "Beyond Templates.",
     "hero.title.2": "Built to Convert.",
     "hero.subtitle":
-      "Premium web studio for Indonesian brands serious about growth. Custom design, performance-first, and proven conversion strategies.",
+      "Premium website creation for Indonesian brands serious about growth — landing pages, company profiles, and custom websites with exclusive design, fast performance (Lighthouse 90+), and proven conversion strategies.",
     "hero.cta.primary": "View Work",
     "hero.cta.secondary": "Free Consultation",
     "hero.stat.1": "Demo Projects",
@@ -250,10 +251,10 @@ export const translations = {
 
     // Services
     "srv.label": "WHAT WE DO",
-    "srv.title": "Services for",
-    "srv.italic": "every need.",
+    "srv.title": "Website creation services for every business need.",
+    "srv.italic": "",
     "srv.subtitle":
-      "Currently we focus on frontend development. From landing pages to company profiles, all with premium standards.",
+      "From high-converting landing pages, professional company profiles, to website redesigns — all built with premium standards and best performance.",
 
     // Process
     "prc.label": "HOW WE WORK",
@@ -265,7 +266,8 @@ export const translations = {
     // Why
     "why.label": "WHY SPACESCALE",
     "why.title.1": "Not your average freelancer.",
-    "why.italic": "A studio with standards.",
+    "why.italic": "A premium web studio with international standards.",
+    "why.subtitle": "We're not just a website service — we're a studio that combines business strategy, custom design, and technical performance in one transparent workflow.",
 
     // Pricing
     "pri.label": "INVESTMENT",
@@ -455,10 +457,10 @@ export const translations = {
 
     // CTA
     "cta.badge": "LIMITED SLOTS · 3 PROJECTS/MONTH",
-    "cta.title.1": "Ready to",
-    "cta.italic": "level up?",
+    "cta.title.1": "Ready to have a website that truly works for your business?",
+    "cta.italic": "",
     "cta.subtitle":
-      "Free 30-minute consultation. We discuss your goals and give honest advice — no hard sell.",
+      "Free 30-minute consultation with the Spacescale team — premium website creation studio in Indonesia. Discuss your goals and get honest advice without hard sell.",
     "cta.btn.1": "Chat WhatsApp",
     "cta.btn.2": "Email Us",
 
@@ -476,7 +478,7 @@ export const translations = {
     "ftr.contact": "CONTACT",
     "ftr.instagram": "Instagram",
     "ftr.schedule": "Schedule Call",
-    "ftr.copyright": "© 2026 Spacescale.id · Built with care in Indonesia",
+    "ftr.copyright": "© 2026 Spacescale · Built with care in Indonesia",
     "ftr.status": "ACCEPTING PROJECTS",
 
     // Work page

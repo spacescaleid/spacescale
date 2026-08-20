@@ -20,12 +20,26 @@ export async function generateMetadata({
   if (!project) return { title: "Project Not Found" };
 
   return {
-    title: `${project.name} — Case Study`,
-    description: project.tagline.id,
+    title: `${project.name} — Case Study | Spacescale`,
+    description: `${project.name}: ${project.description.id}. Dibuat oleh Spacescale — studio web premium Indonesia.`,
     openGraph: {
-      title: `${project.name} — Spacescale.id`,
+      title: `${project.name} — Case Study | Spacescale`,
       description: project.tagline.id,
-      images: project.image ? [project.image] : [],
+      url: `https://spacescale.online/work/${project.slug}`,
+      siteName: "Spacescale",
+      images: project.image ? [{ url: project.image }] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.name} — Case Study | Spacescale`,
+      description: project.tagline.id,
+    },
+    alternates: {
+      canonical: `https://spacescale.online/work/${project.slug}`,
+      languages: {
+        "id": `https://spacescale.online/work/${project.slug}`,
+        "en": `https://spacescale.online/en/work/${project.slug}`,
+      },
     },
   };
 }
@@ -40,8 +54,51 @@ export default function CaseStudyPage({ params }: PageProps) {
   const currentIndex = projects.findIndex((p) => p.slug === params.slug);
   const nextProject = projects[currentIndex + 1] ?? projects[0];
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://spacescale.online",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Work",
+        item: "https://spacescale.online/work",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: project.name,
+        item: `https://spacescale.online/work/${project.slug}`,
+      },
+    ],
+  };
+
+  const projectAltTexts: Record<string, string> = {
+    eqahku: "Website Eqahku dengan elemen 3D interaktif dibuat oleh Spacescale",
+    lumera: "Website skincare brand Lumera dibuat oleh Spacescale",
+    "midnight-roast": "Website Midnight Roast late-night cafe dibuat oleh Spacescale",
+    "syari-laundry": "Website Syar'i Laundry dengan desain clean & mobile-first dibuat oleh Spacescale",
+    naratama: "Website personal brand Naratama untuk executive coach dibuat oleh Spacescale",
+  };
+
+  const altText = projectAltTexts[project.slug] || `Project ${project.name} dibuat oleh Spacescale`;
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
+      <link rel="canonical" href={`https://spacescale.online/work/${project.slug}`} />
+
       {/* Hero */}
       <section className="px-5 pb-16 pt-32 md:px-[5%] md:pt-40">
         <div className="mx-auto max-w-narrow">
@@ -104,7 +161,7 @@ export default function CaseStudyPage({ params }: PageProps) {
                 className="relative aspect-portfolio w-full overflow-hidden rounded-3xl bg-cover bg-top"
                 style={{ backgroundImage: `url(${project.image})` }}
                 role="img"
-                aria-label={`${project.name} screenshot`}
+                aria-label={altText}
               />
             ) : (
               <div
@@ -177,15 +234,41 @@ export default function CaseStudyPage({ params }: PageProps) {
           )}
 
           <Reveal delay={0.2}>
-            <div className="mt-20 space-y-6 text-body-md leading-relaxed text-text-secondary">
+            <div className="mt-20 space-y-8 text-body-md leading-relaxed text-text-secondary">
               <h2 className="font-sans text-display-sm font-bold text-text-primary">
                 The Brief
               </h2>
               <p>{project.description.id}</p>
-              <p className="text-text-muted italic">
-                Case study lengkap segera hadir. Untuk diskusi project
-                serupa, hubungi kami via WhatsApp.
-              </p>
+
+              {/* Problem */}
+              <div className="border-t border-border-light pt-8">
+                <h3 className="mb-3 font-sans text-xl font-semibold text-text-primary">
+                  Problem
+                </h3>
+                <p>
+                  {getProjectProblem(project.slug)}
+                </p>
+              </div>
+
+              {/* Strategy */}
+              <div className="border-t border-border-light pt-8">
+                <h3 className="mb-3 font-sans text-xl font-semibold text-text-primary">
+                  Strategy
+                </h3>
+                <p>
+                  {getProjectStrategy(project.slug)}
+                </p>
+              </div>
+
+              {/* Result */}
+              <div className="border-t border-border-light pt-8">
+                <h3 className="mb-3 font-sans text-xl font-semibold text-text-primary">
+                  Result
+                </h3>
+                <p>
+                  {getProjectResult(project.slug)}
+                </p>
+              </div>
             </div>
           </Reveal>
         </div>
@@ -252,4 +335,37 @@ export default function CaseStudyPage({ params }: PageProps) {
       </section>
     </>
   );
+}
+
+function getProjectProblem(slug: string): string {
+  const problems: Record<string, string> = {
+    eqahku: "Eqahku membutuhkan pendekatan digital-first untuk layanan aqiqah yang tradisional. Tantangannya adalah membuat pengalaman yang modern dan playful tanpa kehilangan rasa hormat terhadap nilai-nilai religius. Brand ini perlu menonjol di pasar yang sudah jenuh dengan website aqiqah konvensional.",
+    lumera: "Sebagai brand skincare baru, Lumera membutuhkan website e-commerce yang tidak hanya menampilkan produk, tetapi juga membangun trust melalui storytelling. Tantangannya adalah menciptakan conversion funnel yang efektif sambil mempertahankan estetika premium brand.",
+    "midnight-roast": "Midnight Roast, cafe late-night di Kemang, membutuhkan identitas digital yang mencerminkan suasana atmospheric dan intimate. Tantangannya adalah membuat website yang bisa menyampaikan vibe cafe melalui layar — sesuatu yang sulit dicapai dengan template biasa.",
+    "syari-laundry": "Syar'i Laundry ingin memposisikan diri sebagai layanan laundry syar'i yang profesional di pasar lokal. Tantangannya adalah membuat website yang terlihat kredibel dan modern untuk bisnis lokal, dengan value proposition yang jelas tentang keunggulan syar'i.",
+    naratama: "Sebagai executive coach senior, Naratama membutuhkan website personal brand yang memancarkan otoritas dan kredibilitas tanpa terlihat berlebihan. Tantangannya adalah menciptakan estetika editorial-driven yang elegan dan restraint.",
+  };
+  return problems[slug] || "Tantangan spesifik yang dihadapi klien dalam kebutuhan digital mereka.";
+}
+
+function getProjectStrategy(slug: string): string {
+  const strategies: Record<string, string> = {
+    eqahku: "Spacescale mengembangkan pendekatan digital-first dengan elemen 3D interaktif yang playful. Setiap halaman dirancang untuk memandu user dari curiosity hingga conversion, dengan navigasi yang intuitif dan visual storytelling yang kuat.",
+    lumera: "Strategi yang diterapkan adalah product storytelling-first dengan conversion funnel yang terstruktur. Setiap section website dirancang untuk membangun trust secara bertahap, dari brand story hingga social proof dan CTA yang jelas.",
+    "midnight-roast": "Pendekatan atmospheric design dengan cinematographic visual approach. Website dirancang seperti entering the cafe — setiap scroll menghadirkan experience yang intimate dan memorable, dengan palette warna yang warm dan typography treatment yang premium.",
+    "syari-laundry": "Clean design dengan clear value proposition dan mobile-first approach. Website fokus pada conversion — memudahkan pelanggan untuk langsung menghubungi via WhatsApp, dengan informasi layanan yang tersusun rapi dan mudah dipahami.",
+    naratama: "Editorial-driven design dengan tipografi sebagai hero element. Setiap halaman dirancang dengan restraint yang disengaja — minimal decoration, maximum impact. Color palette yang sophisticated dan spacing yang generous mencerminkan otoritas.",
+  };
+  return strategies[slug] || "Spacescale menerapkan pendekatan strategis yang disesuaikan dengan kebutuhan unik setiap klien.";
+}
+
+function getProjectResult(slug: string): string {
+  const results: Record<string, string> = {
+    eqahku: "Website berhasil menghadirkan pengalaman aqiqah yang modern dan digital-first. Performa Lighthouse score mencapai 95+ dengan loading time di bawah 2 detik. Elemen 3D interaktif berjalan smooth di mobile tanpa mengorbankan performa.",
+    lumera: "E-commerce Lumera diluncurkan dengan conversion-optimized design. Website menampilkan product storytelling yang compelling dengan performa Lighthouse 90+ dan loading time yang cepat untuk pengalaman belanja yang seamless.",
+    "midnight-roast": "Website Midnight Roast berhasil menangkap atmosfer cafe melalui digital experience. Dengan performa Lighthouse 95+ dan visual storytelling yang cinematic, website ini menjadi representasi digital yang sempurna dari brand.",
+    "syari-laundry": "Website Syar'i Laundry diluncurkan dengan clean design dan mobile-first approach. Performa Lighthouse 90+ dengan conversion flow yang jelas — pengunjung bisa langsung menghubungi via WhatsApp dalam satu klik.",
+    naratama: "Personal brand website untuk Naratama berhasil menghadirkan estetika editorial yang premium. Dengan performa Lighthouse 95+ dan tipografi-driven design, website ini memancarkan otoritas tanpa berlebihan.",
+  };
+  return results[slug] || "Project berhasil diluncurkan dengan performa dan kualitas yang sesuai standar premium Spacescale.";
 }

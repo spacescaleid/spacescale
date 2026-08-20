@@ -205,13 +205,13 @@ function SceneText({
         <div className="mb-3 font-mono text-[0.65rem] uppercase tracking-[0.25em] text-accent-electric md:text-meta md:tracking-[0.3em]">
           {t(scene.labelKey as never)}
         </div>
-        <h2 className="mb-3 font-sans text-[2rem] font-bold leading-[1.05] tracking-tight md:text-[2.5rem] lg:text-display-md">
+        <h3 className="mb-3 font-sans text-[2rem] font-bold leading-[1.05] tracking-tight md:text-[2.5rem] lg:text-display-md">
           {t(scene.titleKey as never)}
           <br />
           <span className="italic-serif text-accent-electric">
             {t(scene.italicKey as never)}
           </span>
-        </h2>
+        </h3>
         <p className="mx-auto max-w-[440px] text-[0.95rem] leading-relaxed text-text-on-dark/70 md:text-body-lg lg:mx-0">
           {t(scene.descKey as never)}
         </p>

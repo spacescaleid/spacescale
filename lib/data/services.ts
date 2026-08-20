@@ -11,8 +11,8 @@ export const services: Service[] = [
     id: "landing",
     title: { id: "Landing Page", en: "Landing Page" },
     description: {
-      id: "Single page yang konversi tinggi untuk launching produk atau campaign Anda.",
-      en: "High-converting single page for product launches or campaigns.",
+      id: "Jasa pembuatan landing page untuk launching produk & campaign dengan conversion rate tinggi.",
+      en: "High-converting landing page creation for product launches & campaigns with high conversion rate.",
     },
     iconPath: "M3 3h18v18H3zM3 9h18M9 21V9",
   },
@@ -20,8 +20,8 @@ export const services: Service[] = [
     id: "company",
     title: { id: "Company Profile", en: "Company Profile" },
     description: {
-      id: "Multi-page website yang merepresentasikan brand Anda secara profesional.",
-      en: "Multi-page website that represents your brand professionally.",
+      id: "Jasa website company profile multi-halaman yang merepresentasikan brand Anda secara profesional.",
+      en: "Multi-page company profile website creation that represents your brand professionally.",
     },
     iconPath:
       "M3 12l2-2 4 4 8-8 4 4M3 12v6a2 2 0 002 2h14a2 2 0 002-2v-6",
@@ -30,8 +30,8 @@ export const services: Service[] = [
     id: "redesign",
     title: { id: "Website Redesign", en: "Website Redesign" },
     description: {
-      id: "Refresh website lama Anda jadi modern, cepat, dan mobile-friendly.",
-      en: "Refresh your old website into something modern, fast, and mobile-friendly.",
+      id: "Jasa redesign website lama jadi modern, cepat, dan mobile-friendly.",
+      en: "Website redesign service — transform your old website into something modern, fast, and mobile-friendly.",
     },
     iconPath:
       "M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83",
@@ -40,8 +40,8 @@ export const services: Service[] = [
     id: "frontend",
     title: { id: "Frontend Development", en: "Frontend Development" },
     description: {
-      id: "Convert design Figma jadi code Next.js berkualitas production. Pixel-perfect, responsive.",
-      en: "Convert Figma design into production-quality Next.js code. Pixel-perfect, responsive.",
+      id: "Jasa convert desain Figma ke Next.js, pixel-perfect dan production-ready.",
+      en: "Figma to Next.js conversion service — pixel-perfect and production-ready.",
     },
     iconPath: "M16 18l6-6-6-6M8 6l-6 6 6 6",
   },

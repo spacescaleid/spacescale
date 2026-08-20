@@ -2,7 +2,7 @@
   "name": "spacescale",
   "version": "1.0.0",
   "private": true,
-  "description": "Spacescale.id — Premium web studio for Indonesian brands serious about growth.",
+  "description": "Spacescale — Premium web studio for Indonesian brands serious about growth.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

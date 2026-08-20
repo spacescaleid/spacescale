@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/", "/_next/"],
       },
     ],
-    sitemap: "https://spacescale.id/sitemap.xml",
+    sitemap: "https://spacescale.online/sitemap.xml",
   };
 }

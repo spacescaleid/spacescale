@@ -29,7 +29,7 @@ export function Footer() {
   ];
 
   const contactLinks: FooterLink[] = [
-    { label: "hello@spacescale.id", href: emailLink(), external: false },
+    { label: "hello@spacescale.online", href: emailLink(), external: false },
     { label: "WhatsApp", href: whatsappLink(), external: true },
     {
       label: t("ftr.instagram"),
@@ -49,7 +49,7 @@ export function Footer() {
           <div className="mb-4 flex items-center gap-2">
   <Image
     src="/logo.svg"
-    alt="Spacescale"
+    alt="Logo Spacescale - Jasa Pembuatan Website Premium Indonesia"
     width={32}
     height={32}
     className="h-8 w-8"

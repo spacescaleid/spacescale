@@ -22,7 +22,7 @@ export function whatsappLink(message?: string): string {
  * Email link generator.
  */
 export function emailLink(subject?: string): string {
-  const email = "hello@spacescale.id";
+  const email = "hello@spacescale.online";
   return subject ? `mailto:${email}?subject=${encodeURIComponent(subject)}` : `mailto:${email}`;
 }
 

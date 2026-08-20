@@ -96,11 +96,11 @@ export function Navbar() {
 <Link
   href="/"
   className="flex flex-shrink-0 items-center gap-2"
-  aria-label="Spacescale.id — Home"
+  aria-label="Spacescale — Home"
 >
   <Image
     src="/logo.svg"
-    alt="Spacescale"
+    alt="Logo Spacescale - Jasa Pembuatan Website Premium Indonesia"
     width={28}
     height={28}
     priority
@@ -241,7 +241,7 @@ export function Navbar() {
               transition={{ duration: 0.4, delay: 0.5 }}
             >
               <p className="font-mono text-meta-sm text-text-muted">
-                Spacescale.id · Premium Web Studio
+                Spacescale · Premium Web Studio
               </p>
             </motion.div>
           </motion.div>

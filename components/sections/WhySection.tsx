@@ -30,6 +30,11 @@ export function WhySection() {
               </span>
             </span>
           }
+          subtitle={
+            <span className="text-text-on-dark/70">
+              {t("why.subtitle")}
+            </span>
+          }
         />
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
