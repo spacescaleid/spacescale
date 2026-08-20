@@ -460,7 +460,7 @@ function CategoryAccordion({
                           />
                         )}
 
-                        <div className="relative flex flex-1 flex-col p-7 md:p-8">
+                        <div className="relative flex flex-1 flex-col p-6 md:p-7">
                           <div className="mb-5 flex items-center justify-between">
                             <span className="inline-flex items-center gap-1.5 rounded-full border border-border-light bg-bg-secondary px-3.5 py-1.5 font-mono text-meta-sm font-semibold uppercase tracking-[0.1em] text-text-secondary">
                               {pkg.tier}
@@ -486,34 +486,30 @@ function CategoryAccordion({
                             {pkg.description}
                           </p>
 
-                          <div className="mb-6 rounded-2xl bg-bg-secondary/50 px-4 py-3">
-                            <div className="flex items-baseline gap-2">
-                              <span className="font-serif text-display-sm font-bold text-text-primary md:text-display-md">
-                                {pkg.price}
-                              </span>
-                            </div>
+                          <div className="mb-6 rounded-2xl bg-bg-secondary/50 px-4 py-4 text-center">
+                            <span className="font-serif text-2xl font-bold text-text-primary md:text-3xl">
+                              {pkg.price}
+                            </span>
                             {pkg.originalPrice && (
-                              <span className="mt-1 inline-block text-body-sm text-text-muted line-through">
+                              <span className="mt-1 block text-xs text-text-muted line-through">
                                 {pkg.originalPrice}
                               </span>
                             )}
                           </div>
 
-                          <div className="mb-6 h-px bg-border-light" />
 
-                          <ul className="mb-8 flex-1 space-y-3">
+
+                          <ul className="mb-6 flex-1 space-y-2">
                             {pkg.features.map((feature) => (
                               <li
                                 key={`${pkg.title}-${feature}`}
-                                className="flex items-start gap-3 rounded-xl px-3 py-2 transition-colors duration-200 hover:bg-bg-secondary/60"
+                                className="flex items-start gap-2.5"
                               >
-                                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-success/10">
-                                  <Check
-                                    className="h-3 w-3 text-accent-success"
-                                    aria-hidden="true"
-                                  />
-                                </span>
-                                <span className="text-[0.88rem] leading-snug text-text-primary/80">
+                                <Check
+                                  className="mt-0.5 h-4 w-4 shrink-0 text-accent-success"
+                                  aria-hidden="true"
+                                />
+                                <span className="text-[0.82rem] leading-snug text-text-primary/80">
                                   {feature}
                                 </span>
                               </li>
