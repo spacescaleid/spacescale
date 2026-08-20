@@ -39,35 +39,43 @@ type PricingPackage = {
 const CATEGORY_COPY: Record<
   PricingCategory,
   {
+    nameKey: string;
     labelKey: string;
     subtitleKey: string;
   }
 > = {
   "Paket Personal & Perayaan": {
+    nameKey: "pri.sec.name.01",
     labelKey: "pri.sec.cat.01",
     subtitleKey: "pri.sec.sub.01",
   },
   "Paket Undangan Digital": {
+    nameKey: "pri.sec.name.02",
     labelKey: "pri.sec.cat.02",
     subtitleKey: "pri.sec.sub.02",
   },
   "Paket Bisnis & UMKM": {
+    nameKey: "pri.sec.name.03",
     labelKey: "pri.sec.cat.03",
     subtitleKey: "pri.sec.sub.03",
   },
   "Paket Portfolio Personal": {
+    nameKey: "pri.sec.name.04",
     labelKey: "pri.sec.cat.04",
     subtitleKey: "pri.sec.sub.04",
   },
   "Paket Company Profile": {
+    nameKey: "pri.sec.name.05",
     labelKey: "pri.sec.cat.05",
     subtitleKey: "pri.sec.sub.05",
   },
   "Paket Website Event": {
+    nameKey: "pri.sec.name.06",
     labelKey: "pri.sec.cat.06",
     subtitleKey: "pri.sec.sub.06",
   },
   "Paket Bundel Terbaik": {
+    nameKey: "pri.sec.name.bundle",
     labelKey: "pri.sec.cat.bundle",
     subtitleKey: "pri.sec.sub.bundle",
   },
@@ -385,7 +393,7 @@ function CategoryAccordion({
                 {t(categoryMeta.labelKey as any)}
               </span>
               <h4 className="font-sans text-display-sm font-bold leading-tight text-text-primary">
-                {category}
+                {t(categoryMeta.nameKey as any)}
               </h4>
             </div>
           </div>

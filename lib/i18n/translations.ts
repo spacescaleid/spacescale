@@ -130,6 +130,13 @@ export const translations = {
       "Landing page event dengan informasi jelas, alur registrasi rapi, dan CTA yang kuat.",
     "pri.sec.sub.bundle":
       "Kombinasi paket paling worth it untuk brand yang ingin tampil lebih lengkap sekaligus hemat.",
+    "pri.sec.name.01": "Paket Personal & Perayaan",
+    "pri.sec.name.02": "Paket Undangan Digital",
+    "pri.sec.name.03": "Paket Bisnis & UMKM",
+    "pri.sec.name.04": "Paket Portfolio Personal",
+    "pri.sec.name.05": "Paket Company Profile",
+    "pri.sec.name.06": "Paket Website Event",
+    "pri.sec.name.bundle": "Paket Bundel Terbaik",
 
     // FAQ
     "faq.label": "QUESTIONS",
@@ -304,6 +311,13 @@ export const translations = {
       "Event landing page with clear information, neat registration flow, and strong CTA.",
     "pri.sec.sub.bundle":
       "The most valuable package combination for brands that want to look more complete while saving.",
+    "pri.sec.name.01": "Personal & Celebration Package",
+    "pri.sec.name.02": "Digital Invitation Package",
+    "pri.sec.name.03": "Business & SME Package",
+    "pri.sec.name.04": "Personal Portfolio Package",
+    "pri.sec.name.05": "Company Profile Package",
+    "pri.sec.name.06": "Event Website Package",
+    "pri.sec.name.bundle": "Best Bundle Package",
 
     // Pricing Packages
     "pri.pkg.birthday": "Birthday Greeting Website",
